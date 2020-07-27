@@ -19,7 +19,7 @@ mvn clean install
 
 ## 使用maven从jar文件安装
 ```
-mvn install:install-file -DgroupId=top.folen -DartifactId=fastdfs-client-plus -Dversion=${version} -Dpackaging=jar
+mvn install:install-file -DgroupId=com.github.secbr -DartifactId=fastdfs-client-plus -Dversion=${version} -Dpackaging=jar
  -Dfile=fastdfs-client-plus-${version}.jar
 ```
 
@@ -27,7 +27,7 @@ mvn install:install-file -DgroupId=top.folen -DartifactId=fastdfs-client-plus -D
 
 ```xml
 <dependency>
-    <groupId>top.folen</groupId>
+    <groupId>com.github.secbr</groupId>
     <artifactId>fastdfs-client-plus</artifactId>
     <version>1.1.0-SNAPSHOT</version>
 </dependency>
