@@ -4,7 +4,7 @@
 
   <groupId>com.github.secbr</groupId>
   <artifactId>fastdfs-client-plus</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.1.1-SNAPSHOT</version>
   <name>fastdfs-client-plus</name>
   <url>https://github.com/secbr/fastdfs-client-plus</url>
   <description>fastdfs client plus for java</description>
