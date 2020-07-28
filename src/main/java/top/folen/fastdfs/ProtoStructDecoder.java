@@ -9,7 +9,7 @@ import java.lang.reflect.Array;
  * @author Happy Fish / YuQing
  * @version Version 1.17
  */
-public class ProtoStructDecoder<T extends StructBase> {
+public class ProtoStructDecoder<T extends BaseStruct> {
 	
 	/**
 	 * decode byte buffer

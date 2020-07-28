@@ -8,7 +8,7 @@ import java.util.Date;
  * @author Happy Fish / YuQing
  * @version Version 1.25
  */
-public class StructStorageStat extends StructBase {
+public class StorageStatStruct extends BaseStruct {
   
 	protected static final int FIELD_INDEX_STATUS = 0;
 	protected static final int FIELD_INDEX_ID = 1;
@@ -76,250 +76,250 @@ public class StructStorageStat extends StructBase {
 	protected static final int FIELD_INDEX_IF_TRUNK_FILE = 61;
 
 	protected static int fieldsTotalSize;
-	protected static StructBase.FieldInfo[] fieldsArray = new StructBase.FieldInfo[62];
+	protected static BaseStruct.FieldInfo[] fieldsArray = new BaseStruct.FieldInfo[62];
 
 	static {
 		int offset = 0;
 
-		fieldsArray[FIELD_INDEX_STATUS] = new StructBase.FieldInfo("status", offset, 1);
+		fieldsArray[FIELD_INDEX_STATUS] = new BaseStruct.FieldInfo("status", offset, 1);
 		offset += 1;
 
-		fieldsArray[FIELD_INDEX_ID] = new StructBase.FieldInfo("id", offset, ProtoCommon.FDFS_STORAGE_ID_MAX_SIZE);
+		fieldsArray[FIELD_INDEX_ID] = new BaseStruct.FieldInfo("id", offset, ProtoCommon.FDFS_STORAGE_ID_MAX_SIZE);
 		offset += ProtoCommon.FDFS_STORAGE_ID_MAX_SIZE;
 
-		fieldsArray[FIELD_INDEX_IP_ADDR] = new StructBase.FieldInfo("ipAddr", offset, ProtoCommon.FDFS_IPADDR_SIZE);
+		fieldsArray[FIELD_INDEX_IP_ADDR] = new BaseStruct.FieldInfo("ipAddr", offset, ProtoCommon.FDFS_IPADDR_SIZE);
 		offset += ProtoCommon.FDFS_IPADDR_SIZE;
 
-		fieldsArray[FIELD_INDEX_DOMAIN_NAME] = new StructBase.FieldInfo("domainName", offset,
+		fieldsArray[FIELD_INDEX_DOMAIN_NAME] = new BaseStruct.FieldInfo("domainName", offset,
 				ProtoCommon.FDFS_DOMAIN_NAME_MAX_SIZE);
 		offset += ProtoCommon.FDFS_DOMAIN_NAME_MAX_SIZE;
 
-		fieldsArray[FIELD_INDEX_SRC_IP_ADDR] = new StructBase.FieldInfo("srcIpAddr", offset,
+		fieldsArray[FIELD_INDEX_SRC_IP_ADDR] = new BaseStruct.FieldInfo("srcIpAddr", offset,
 				ProtoCommon.FDFS_IPADDR_SIZE);
 		offset += ProtoCommon.FDFS_IPADDR_SIZE;
 
-		fieldsArray[FIELD_INDEX_VERSION] = new StructBase.FieldInfo("version", offset, ProtoCommon.FDFS_VERSION_SIZE);
+		fieldsArray[FIELD_INDEX_VERSION] = new BaseStruct.FieldInfo("version", offset, ProtoCommon.FDFS_VERSION_SIZE);
 		offset += ProtoCommon.FDFS_VERSION_SIZE;
 
-		fieldsArray[FIELD_INDEX_JOIN_TIME] = new StructBase.FieldInfo("joinTime", offset,
+		fieldsArray[FIELD_INDEX_JOIN_TIME] = new BaseStruct.FieldInfo("joinTime", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_UP_TIME] = new StructBase.FieldInfo("upTime", offset,
+		fieldsArray[FIELD_INDEX_UP_TIME] = new BaseStruct.FieldInfo("upTime", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_MB] = new StructBase.FieldInfo("totalMB", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_MB] = new BaseStruct.FieldInfo("totalMB", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_FREE_MB] = new StructBase.FieldInfo("freeMB", offset,
+		fieldsArray[FIELD_INDEX_FREE_MB] = new BaseStruct.FieldInfo("freeMB", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_UPLOAD_PRIORITY] = new StructBase.FieldInfo("uploadPriority", offset,
+		fieldsArray[FIELD_INDEX_UPLOAD_PRIORITY] = new BaseStruct.FieldInfo("uploadPriority", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_STORE_PATH_COUNT] = new StructBase.FieldInfo("storePathCount", offset,
+		fieldsArray[FIELD_INDEX_STORE_PATH_COUNT] = new BaseStruct.FieldInfo("storePathCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUBDIR_COUNT_PER_PATH] = new StructBase.FieldInfo("subdirCountPerPath", offset,
+		fieldsArray[FIELD_INDEX_SUBDIR_COUNT_PER_PATH] = new BaseStruct.FieldInfo("subdirCountPerPath", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_CURRENT_WRITE_PATH] = new StructBase.FieldInfo("currentWritePath", offset,
+		fieldsArray[FIELD_INDEX_CURRENT_WRITE_PATH] = new BaseStruct.FieldInfo("currentWritePath", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_STORAGE_PORT] = new StructBase.FieldInfo("storagePort", offset,
+		fieldsArray[FIELD_INDEX_STORAGE_PORT] = new BaseStruct.FieldInfo("storagePort", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_STORAGE_HTTP_PORT] = new StructBase.FieldInfo("storageHttpPort", offset,
+		fieldsArray[FIELD_INDEX_STORAGE_HTTP_PORT] = new BaseStruct.FieldInfo("storageHttpPort", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_CONNECTION_ALLOC_COUNT] = new StructBase.FieldInfo("connectionAllocCount", offset, 4);
+		fieldsArray[FIELD_INDEX_CONNECTION_ALLOC_COUNT] = new BaseStruct.FieldInfo("connectionAllocCount", offset, 4);
 		offset += 4;
 
-		fieldsArray[FIELD_INDEX_CONNECTION_CURRENT_COUNT] = new StructBase.FieldInfo("connectionCurrentCount", offset,
+		fieldsArray[FIELD_INDEX_CONNECTION_CURRENT_COUNT] = new BaseStruct.FieldInfo("connectionCurrentCount", offset,
 				4);
 		offset += 4;
 
-		fieldsArray[FIELD_INDEX_CONNECTION_MAX_COUNT] = new StructBase.FieldInfo("connectionMaxCount", offset, 4);
+		fieldsArray[FIELD_INDEX_CONNECTION_MAX_COUNT] = new BaseStruct.FieldInfo("connectionMaxCount", offset, 4);
 		offset += 4;
 
-		fieldsArray[FIELD_INDEX_TOTAL_UPLOAD_COUNT] = new StructBase.FieldInfo("totalUploadCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_UPLOAD_COUNT] = new BaseStruct.FieldInfo("totalUploadCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_UPLOAD_COUNT] = new StructBase.FieldInfo("successUploadCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_UPLOAD_COUNT] = new BaseStruct.FieldInfo("successUploadCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_APPEND_COUNT] = new StructBase.FieldInfo("totalAppendCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_APPEND_COUNT] = new BaseStruct.FieldInfo("totalAppendCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_APPEND_COUNT] = new StructBase.FieldInfo("successAppendCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_APPEND_COUNT] = new BaseStruct.FieldInfo("successAppendCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_MODIFY_COUNT] = new StructBase.FieldInfo("totalModifyCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_MODIFY_COUNT] = new BaseStruct.FieldInfo("totalModifyCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_MODIFY_COUNT] = new StructBase.FieldInfo("successModifyCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_MODIFY_COUNT] = new BaseStruct.FieldInfo("successModifyCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_TRUNCATE_COUNT] = new StructBase.FieldInfo("totalTruncateCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_TRUNCATE_COUNT] = new BaseStruct.FieldInfo("totalTruncateCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_TRUNCATE_COUNT] = new StructBase.FieldInfo("successTruncateCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_TRUNCATE_COUNT] = new BaseStruct.FieldInfo("successTruncateCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_SET_META_COUNT] = new StructBase.FieldInfo("totalSetMetaCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_SET_META_COUNT] = new BaseStruct.FieldInfo("totalSetMetaCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_SET_META_COUNT] = new StructBase.FieldInfo("successSetMetaCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_SET_META_COUNT] = new BaseStruct.FieldInfo("successSetMetaCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_DELETE_COUNT] = new StructBase.FieldInfo("totalDeleteCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_DELETE_COUNT] = new BaseStruct.FieldInfo("totalDeleteCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_DELETE_COUNT] = new StructBase.FieldInfo("successDeleteCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_DELETE_COUNT] = new BaseStruct.FieldInfo("successDeleteCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_DOWNLOAD_COUNT] = new StructBase.FieldInfo("totalDownloadCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_DOWNLOAD_COUNT] = new BaseStruct.FieldInfo("totalDownloadCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_DOWNLOAD_COUNT] = new StructBase.FieldInfo("successDownloadCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_DOWNLOAD_COUNT] = new BaseStruct.FieldInfo("successDownloadCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_GET_META_COUNT] = new StructBase.FieldInfo("totalGetMetaCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_GET_META_COUNT] = new BaseStruct.FieldInfo("totalGetMetaCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_GET_META_COUNT] = new StructBase.FieldInfo("successGetMetaCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_GET_META_COUNT] = new BaseStruct.FieldInfo("successGetMetaCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_CREATE_LINK_COUNT] = new StructBase.FieldInfo("totalCreateLinkCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_CREATE_LINK_COUNT] = new BaseStruct.FieldInfo("totalCreateLinkCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_CREATE_LINK_COUNT] = new StructBase.FieldInfo("successCreateLinkCount", offset
+		fieldsArray[FIELD_INDEX_SUCCESS_CREATE_LINK_COUNT] = new BaseStruct.FieldInfo("successCreateLinkCount", offset
 				, ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_DELETE_LINK_COUNT] = new StructBase.FieldInfo("totalDeleteLinkCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_DELETE_LINK_COUNT] = new BaseStruct.FieldInfo("totalDeleteLinkCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_DELETE_LINK_COUNT] = new StructBase.FieldInfo("successDeleteLinkCount", offset
+		fieldsArray[FIELD_INDEX_SUCCESS_DELETE_LINK_COUNT] = new BaseStruct.FieldInfo("successDeleteLinkCount", offset
 				, ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_UPLOAD_BYTES] = new StructBase.FieldInfo("totalUploadBytes", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_UPLOAD_BYTES] = new BaseStruct.FieldInfo("totalUploadBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_UPLOAD_BYTES] = new StructBase.FieldInfo("successUploadBytes", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_UPLOAD_BYTES] = new BaseStruct.FieldInfo("successUploadBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_APPEND_BYTES] = new StructBase.FieldInfo("totalAppendBytes", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_APPEND_BYTES] = new BaseStruct.FieldInfo("totalAppendBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_APPEND_BYTES] = new StructBase.FieldInfo("successAppendBytes", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_APPEND_BYTES] = new BaseStruct.FieldInfo("successAppendBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_MODIFY_BYTES] = new StructBase.FieldInfo("totalModifyBytes", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_MODIFY_BYTES] = new BaseStruct.FieldInfo("totalModifyBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_MODIFY_BYTES] = new StructBase.FieldInfo("successModifyBytes", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_MODIFY_BYTES] = new BaseStruct.FieldInfo("successModifyBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_DOWNLOAD_BYTES] = new StructBase.FieldInfo("totalDownloadloadBytes", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_DOWNLOAD_BYTES] = new BaseStruct.FieldInfo("totalDownloadloadBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_DOWNLOAD_BYTES] = new StructBase.FieldInfo("successDownloadloadBytes", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_DOWNLOAD_BYTES] = new BaseStruct.FieldInfo("successDownloadloadBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_SYNC_IN_BYTES] = new StructBase.FieldInfo("totalSyncInBytes", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_SYNC_IN_BYTES] = new BaseStruct.FieldInfo("totalSyncInBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_SYNC_IN_BYTES] = new StructBase.FieldInfo("successSyncInBytes", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_SYNC_IN_BYTES] = new BaseStruct.FieldInfo("successSyncInBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_SYNC_OUT_BYTES] = new StructBase.FieldInfo("totalSyncOutBytes", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_SYNC_OUT_BYTES] = new BaseStruct.FieldInfo("totalSyncOutBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_SYNC_OUT_BYTES] = new StructBase.FieldInfo("successSyncOutBytes", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_SYNC_OUT_BYTES] = new BaseStruct.FieldInfo("successSyncOutBytes", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_FILE_OPEN_COUNT] = new StructBase.FieldInfo("totalFileOpenCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_FILE_OPEN_COUNT] = new BaseStruct.FieldInfo("totalFileOpenCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_FILE_OPEN_COUNT] = new StructBase.FieldInfo("successFileOpenCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_FILE_OPEN_COUNT] = new BaseStruct.FieldInfo("successFileOpenCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_FILE_READ_COUNT] = new StructBase.FieldInfo("totalFileReadCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_FILE_READ_COUNT] = new BaseStruct.FieldInfo("totalFileReadCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_FILE_READ_COUNT] = new StructBase.FieldInfo("successFileReadCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_FILE_READ_COUNT] = new BaseStruct.FieldInfo("successFileReadCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TOTAL_FILE_WRITE_COUNT] = new StructBase.FieldInfo("totalFileWriteCount", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_FILE_WRITE_COUNT] = new BaseStruct.FieldInfo("totalFileWriteCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUCCESS_FILE_WRITE_COUNT] = new StructBase.FieldInfo("successFileWriteCount", offset,
+		fieldsArray[FIELD_INDEX_SUCCESS_FILE_WRITE_COUNT] = new BaseStruct.FieldInfo("successFileWriteCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_LAST_SOURCE_UPDATE] = new StructBase.FieldInfo("lastSourceUpdate", offset,
+		fieldsArray[FIELD_INDEX_LAST_SOURCE_UPDATE] = new BaseStruct.FieldInfo("lastSourceUpdate", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_LAST_SYNC_UPDATE] = new StructBase.FieldInfo("lastSyncUpdate", offset,
+		fieldsArray[FIELD_INDEX_LAST_SYNC_UPDATE] = new BaseStruct.FieldInfo("lastSyncUpdate", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_LAST_SYNCED_TIMESTAMP] = new StructBase.FieldInfo("lastSyncedTimestamp", offset,
+		fieldsArray[FIELD_INDEX_LAST_SYNCED_TIMESTAMP] = new BaseStruct.FieldInfo("lastSyncedTimestamp", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_LAST_HEART_BEAT_TIME] = new StructBase.FieldInfo("lastHeartBeatTime", offset,
+		fieldsArray[FIELD_INDEX_LAST_HEART_BEAT_TIME] = new BaseStruct.FieldInfo("lastHeartBeatTime", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_IF_TRUNK_FILE] = new StructBase.FieldInfo("ifTrunkServer", offset, 1);
+		fieldsArray[FIELD_INDEX_IF_TRUNK_FILE] = new BaseStruct.FieldInfo("ifTrunkServer", offset, 1);
 		offset += 1;
 
 		fieldsTotalSize = offset;

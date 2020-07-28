@@ -6,10 +6,11 @@ import java.util.Date;
 /**
  * C struct body decoder
  *
- * @author Happy Fish / YuQing
- * @version Version 1.17
+ * @author zzs
+ * @version Version 1.1.0
  */
-public abstract class StructBase {
+public abstract class BaseStruct {
+
 	/**
 	 * set fields
 	 *

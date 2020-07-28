@@ -1,5 +1,7 @@
 package top.folen.fastdfs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import top.folen.common.Base64;
 import top.folen.common.FastDfsException;
 import top.folen.common.NameValuePair;
@@ -18,6 +20,8 @@ import java.util.Arrays;
  * @version Version 1.27
  */
 public class StorageClient {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(StorageClient.class);
 
 	public final static Base64 base64 = new Base64('-', '_', '.', 0);
 	protected TrackerServer trackerServer;
@@ -164,8 +168,8 @@ public class StorageClient {
 	 */
 	public String[] uploadFile(String groupName, byte[] fileBuff, int offset, int length,
 	                           String fileExtName, NameValuePair[] metaList) throws IOException, FastDfsException {
-		return this.doUploadFile(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, groupName, null, null, fileExtName,
-				length, new UploadBuff(fileBuff, offset, length), metaList);
+		return this.doUploadFile(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, groupName, null,
+				null, fileExtName, length, new UploadBuff(fileBuff, offset, length), metaList);
 	}
 
 	/**
@@ -198,8 +202,9 @@ public class StorageClient {
 	 */
 	public String[] uploadFile(String groupName, byte[] fileBuff,
 	                           String fileExtName, NameValuePair[] metaList) throws IOException, FastDfsException {
-		return this.doUploadFile(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, groupName, null, null, fileExtName,
-				fileBuff.length, new UploadBuff(fileBuff, 0, fileBuff.length), metaList);
+		return this.doUploadFile(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, groupName, null,
+				null, fileExtName, fileBuff.length,
+				new UploadBuff(fileBuff, 0, fileBuff.length), metaList);
 	}
 
 	/**
@@ -256,8 +261,7 @@ public class StorageClient {
 
 		try {
 			return this.doUploadFile(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, groupName, masterFilename,
-					prefixName,
-					fileExtName, f.length(), new UploadStream(fis, f.length()), metaList);
+					prefixName, fileExtName, f.length(), new UploadStream(fis, f.length()), metaList);
 		} finally {
 			fis.close();
 		}
@@ -287,8 +291,8 @@ public class StorageClient {
 		}
 
 		return this.doUploadFile(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, groupName, masterFilename,
-				prefixName,
-				fileExtName, fileBuff.length, new UploadBuff(fileBuff, 0, fileBuff.length), metaList);
+				prefixName, fileExtName, fileBuff.length,
+				new UploadBuff(fileBuff, 0, fileBuff.length), metaList);
 	}
 
 	/**
@@ -317,8 +321,7 @@ public class StorageClient {
 		}
 
 		return this.doUploadFile(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, groupName, masterFilename,
-				prefixName,
-				fileExtName, length, new UploadBuff(fileBuff, offset, length), metaList);
+				prefixName, fileExtName, length, new UploadBuff(fileBuff, offset, length), metaList);
 	}
 
 	/**
@@ -915,7 +918,7 @@ public class StorageClient {
 				connection.release();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("释放连接异常", e);
 		} finally {
 			if (bNewStorageServer) {
 				this.storageServer = null;

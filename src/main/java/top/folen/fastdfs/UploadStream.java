@@ -1,5 +1,8 @@
 package top.folen.fastdfs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,6 +14,8 @@ import java.io.OutputStream;
  * @version Version 1.11
  */
 public class UploadStream implements UploadCallback {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(UploadStream.class);
 
 	/**
 	 * input stream for reading
@@ -51,10 +56,9 @@ public class UploadStream implements UploadCallback {
 					return -1;
 				}
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				LOGGER.error("发送异常", ex);
 				return -1;
 			}
-
 			out.write(buff, 0, bytes);
 			remainBytes -= bytes;
 		}

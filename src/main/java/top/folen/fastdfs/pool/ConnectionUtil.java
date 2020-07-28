@@ -47,6 +47,7 @@ public class ConnectionUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
+			// 释放连接引用
 			connection = null;
 		}
 	}

@@ -52,7 +52,7 @@ public class Monitor {
       }
 
       int count;
-      StructGroupStat[] groupStats = tracker.listGroups(trackerServer);
+      GroupStatStruct[] groupStats = tracker.listGroups(trackerServer);
       if (groupStats == null) {
         System.out.println("");
         System.out.println("ERROR! list groups error, error no: " + tracker.getErrorCode());
@@ -63,7 +63,7 @@ public class Monitor {
       System.out.println("group count: " + groupStats.length);
 
       count = 0;
-      for (StructGroupStat groupStat : groupStats) {
+      for (GroupStatStruct groupStat : groupStats) {
         count++;
         System.out.println("Group " + count + ":");
         System.out.println("group name = " + groupStat.getGroupName());
@@ -79,7 +79,7 @@ public class Monitor {
         System.out.println("current write server index = " + groupStat.getCurrentWriteServer());
         System.out.println("current trunk file id = " + groupStat.getCurrentTrunkFileId());
 
-        StructStorageStat[] storageStats = tracker.listStorages(trackerServer, groupStat.getGroupName());
+        StorageStatStruct[] storageStats = tracker.listStorages(trackerServer, groupStat.getGroupName());
         if (storageStats == null) {
           System.out.println("");
           System.out.println("ERROR! list storage error, error no: " + tracker.getErrorCode());
@@ -89,7 +89,7 @@ public class Monitor {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int stroageCount = 0;
-        for (StructStorageStat storageStat : storageStats) {
+        for (StorageStatStruct storageStat : storageStats) {
           stroageCount++;
           System.out.println("\tStorage " + stroageCount + ":");
           System.out.println("\t\tstorage id = " + storageStat.getId());
@@ -160,9 +160,9 @@ public class Monitor {
     }
   }
 
-  protected static String getSyncedDelayString(StructStorageStat[] storageStats, StructStorageStat currentStorageStat) {
+  protected static String getSyncedDelayString(StorageStatStruct[] storageStats, StorageStatStruct currentStorageStat) {
     long maxLastSourceUpdate = 0;
-    for (StructStorageStat storageStat : storageStats) {
+    for (StorageStatStruct storageStat : storageStats) {
       if (storageStat != currentStorageStat && storageStat.getLastSourceUpdate().getTime() > maxLastSourceUpdate) {
         maxLastSourceUpdate = storageStat.getLastSourceUpdate().getTime();
       }

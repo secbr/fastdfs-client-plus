@@ -6,7 +6,7 @@ package top.folen.fastdfs;
  * @author Happy Fish / YuQing
  * @version Version 1.18
  */
-public class StructGroupStat extends StructBase {
+public class GroupStatStruct extends BaseStruct {
 
 	protected static final int FIELD_INDEX_GROUP_NAME = 0;
 	protected static final int FIELD_INDEX_TOTAL_MB = 1;
@@ -22,55 +22,55 @@ public class StructGroupStat extends StructBase {
 	protected static final int FIELD_INDEX_CURRENT_TRUNK_FILE_ID = 11;
 
 	protected static int fieldsTotalSize;
-	protected static StructBase.FieldInfo[] fieldsArray = new StructBase.FieldInfo[12];
+	protected static BaseStruct.FieldInfo[] fieldsArray = new BaseStruct.FieldInfo[12];
 
 	static {
 		int offset = 0;
-		fieldsArray[FIELD_INDEX_GROUP_NAME] = new StructBase.FieldInfo("groupName", offset,
+		fieldsArray[FIELD_INDEX_GROUP_NAME] = new BaseStruct.FieldInfo("groupName", offset,
 				ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + 1);
 		offset += ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + 1;
 
-		fieldsArray[FIELD_INDEX_TOTAL_MB] = new StructBase.FieldInfo("totalMB", offset,
+		fieldsArray[FIELD_INDEX_TOTAL_MB] = new BaseStruct.FieldInfo("totalMB", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_FREE_MB] = new StructBase.FieldInfo("freeMB", offset,
+		fieldsArray[FIELD_INDEX_FREE_MB] = new BaseStruct.FieldInfo("freeMB", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_TRUNK_FREE_MB] = new StructBase.FieldInfo("trunkFreeMB", offset,
+		fieldsArray[FIELD_INDEX_TRUNK_FREE_MB] = new BaseStruct.FieldInfo("trunkFreeMB", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_STORAGE_COUNT] = new StructBase.FieldInfo("storageCount", offset,
+		fieldsArray[FIELD_INDEX_STORAGE_COUNT] = new BaseStruct.FieldInfo("storageCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_STORAGE_PORT] = new StructBase.FieldInfo("storagePort", offset,
+		fieldsArray[FIELD_INDEX_STORAGE_PORT] = new BaseStruct.FieldInfo("storagePort", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_STORAGE_HTTP_PORT] = new StructBase.FieldInfo("storageHttpPort", offset,
+		fieldsArray[FIELD_INDEX_STORAGE_HTTP_PORT] = new BaseStruct.FieldInfo("storageHttpPort", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_ACTIVE_COUNT] = new StructBase.FieldInfo("activeCount", offset,
+		fieldsArray[FIELD_INDEX_ACTIVE_COUNT] = new BaseStruct.FieldInfo("activeCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_CURRENT_WRITE_SERVER] = new StructBase.FieldInfo("currentWriteServer", offset,
+		fieldsArray[FIELD_INDEX_CURRENT_WRITE_SERVER] = new BaseStruct.FieldInfo("currentWriteServer", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_STORE_PATH_COUNT] = new StructBase.FieldInfo("storePathCount", offset,
+		fieldsArray[FIELD_INDEX_STORE_PATH_COUNT] = new BaseStruct.FieldInfo("storePathCount", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_SUBDIR_COUNT_PER_PATH] = new StructBase.FieldInfo("subdirCountPerPath", offset,
+		fieldsArray[FIELD_INDEX_SUBDIR_COUNT_PER_PATH] = new BaseStruct.FieldInfo("subdirCountPerPath", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
-		fieldsArray[FIELD_INDEX_CURRENT_TRUNK_FILE_ID] = new StructBase.FieldInfo("currentTrunkFileId", offset,
+		fieldsArray[FIELD_INDEX_CURRENT_TRUNK_FILE_ID] = new BaseStruct.FieldInfo("currentTrunkFileId", offset,
 				ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
 		offset += ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 

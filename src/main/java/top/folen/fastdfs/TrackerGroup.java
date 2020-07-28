@@ -1,5 +1,8 @@
 package top.folen.fastdfs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -10,6 +13,8 @@ import java.net.InetSocketAddress;
  * @version Version 1.17
  */
 public class TrackerGroup {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TrackerGroup.class);
 
 	public int trackerServerIndex;
 
@@ -57,8 +62,9 @@ public class TrackerGroup {
 		try {
 			return this.getTrackerServer(currentIndex);
 		} catch (IOException ex) {
-			System.err.println("connect to server " + this.trackerServers[currentIndex].getAddress().getHostAddress() + ":" + this.trackerServers[currentIndex].getPort() + " fail");
-			ex.printStackTrace(System.err);
+			LOGGER.error("connect to server {}:{}  fail",
+					this.trackerServers[currentIndex].getAddress().getHostAddress(),
+					this.trackerServers[currentIndex].getPort(), ex);
 		}
 
 		for (int i = 0; i < this.trackerServers.length; i++) {
@@ -76,11 +82,11 @@ public class TrackerGroup {
 				}
 				return trackerServer;
 			} catch (IOException ex) {
-				System.err.println("connect to server " + this.trackerServers[i].getAddress().getHostAddress() + ":" + this.trackerServers[i].getPort() + " fail");
-				ex.printStackTrace(System.err);
+				LOGGER.error("connect to server {}:{}  fail",
+						this.trackerServers[i].getAddress().getHostAddress(),
+						this.trackerServers[i].getPort(), ex);
 			}
 		}
-
 		return null;
 	}
 

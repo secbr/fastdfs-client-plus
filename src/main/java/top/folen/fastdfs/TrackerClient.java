@@ -1,5 +1,7 @@
 package top.folen.fastdfs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import top.folen.common.FastDfsException;
 import top.folen.fastdfs.pool.Connection;
 import top.folen.fastdfs.pool.ConnectionUtil;
@@ -16,6 +18,8 @@ import java.util.Arrays;
  * @version Version 1.19
  */
 public class TrackerClient {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TrackerClient.class);
 
 	protected TrackerGroup trackerGroup;
 
@@ -429,7 +433,7 @@ public class TrackerClient {
 	 * @param trackerServer the tracker server
 	 * @return group stat array, return null if fail
 	 */
-	public StructGroupStat[] listGroups(TrackerServer trackerServer) throws IOException, FastDfsException {
+	public GroupStatStruct[] listGroups(TrackerServer trackerServer) throws IOException, FastDfsException {
 		byte[] header;
 		if (trackerServer == null) {
 			trackerServer = getTrackerServer();
@@ -452,13 +456,13 @@ public class TrackerClient {
 				return null;
 			}
 
-			ProtoStructDecoder<StructGroupStat> decoder = new ProtoStructDecoder<StructGroupStat>();
-			return decoder.decode(pkgInfo.body, StructGroupStat.class, StructGroupStat.getFieldsTotalSize());
+			ProtoStructDecoder<GroupStatStruct> decoder = new ProtoStructDecoder<GroupStatStruct>();
+			return decoder.decode(pkgInfo.body, GroupStatStruct.class, GroupStatStruct.getFieldsTotalSize());
 		} catch (IOException ex) {
 			ConnectionUtil.close(connection);
 			throw ex;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			LOGGER.error("错误码：{}", ProtoCommon.ERR_NO_EINVAL, ex);
 			this.errno = ProtoCommon.ERR_NO_EINVAL;
 			return null;
 		} finally {
@@ -473,7 +477,7 @@ public class TrackerClient {
 	 * @param groupName     the group name of storage server
 	 * @return storage server stat array, return null if fail
 	 */
-	public StructStorageStat[] listStorages(TrackerServer trackerServer, String groupName) throws IOException,
+	public StorageStatStruct[] listStorages(TrackerServer trackerServer, String groupName) throws IOException,
 			FastDfsException {
 		return this.listStorages(trackerServer, groupName, null);
 	}
@@ -486,7 +490,7 @@ public class TrackerClient {
 	 * @param storageIpAddr the storage server ip address, can be null or empty
 	 * @return storage server stat array, return null if fail
 	 */
-	public StructStorageStat[] listStorages(TrackerServer trackerServer,
+	public StorageStatStruct[] listStorages(TrackerServer trackerServer,
 	                                        String groupName, String storageIpAddr) throws IOException,
 			FastDfsException {
 		byte[] header;
@@ -547,13 +551,13 @@ public class TrackerClient {
 				return null;
 			}
 
-			ProtoStructDecoder<StructStorageStat> decoder = new ProtoStructDecoder<StructStorageStat>();
-			return decoder.decode(pkgInfo.body, StructStorageStat.class, StructStorageStat.getFieldsTotalSize());
+			ProtoStructDecoder<StorageStatStruct> decoder = new ProtoStructDecoder<StorageStatStruct>();
+			return decoder.decode(pkgInfo.body, StorageStatStruct.class, StorageStatStruct.getFieldsTotalSize());
 		} catch (IOException ex) {
 			ConnectionUtil.close(connection);
 			throw ex;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			LOGGER.error("错误码：{}", ProtoCommon.ERR_NO_EINVAL, ex);
 			this.errno = ProtoCommon.ERR_NO_EINVAL;
 			return null;
 		} finally {
@@ -650,11 +654,11 @@ public class TrackerClient {
 			try {
 				trackerServer = trackerGroup.getTrackerServer(serverIndex);
 			} catch (IOException ex) {
-				ex.printStackTrace(System.err);
+				LOGGER.error("错误码：{}", ProtoCommon.ECONNREFUSED, ex);
 				this.errno = ProtoCommon.ECONNREFUSED;
 				return false;
 			}
-			StructStorageStat[] storageStats = listStorages(trackerServer, groupName, storageIpAddr);
+			StorageStatStruct[] storageStats = listStorages(trackerServer, groupName, storageIpAddr);
 			if (storageStats == null) {
 				if (this.errno == ProtoCommon.ERR_NO_ENOENT) {
 					notFoundCount++;
@@ -681,8 +685,10 @@ public class TrackerClient {
 			try {
 				trackerServer = trackerGroup.getTrackerServer(serverIndex);
 			} catch (IOException ex) {
-				System.err.println("connect to server " + trackerGroup.trackerServers[serverIndex].getAddress().getHostAddress() + ":" + trackerGroup.trackerServers[serverIndex].getPort() + " fail");
-				ex.printStackTrace(System.err);
+				LOGGER.error("connect to server ：{}:{} fail",
+						trackerGroup.trackerServers[serverIndex].getAddress().getHostAddress(),
+						trackerGroup.trackerServers[serverIndex].getPort(),
+						ex);
 				this.errno = ProtoCommon.ECONNREFUSED;
 				return false;
 			}

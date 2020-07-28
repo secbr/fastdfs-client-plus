@@ -34,14 +34,12 @@ public class ClientGlobal {
 	public static final String PROP_KEY_HTTP_TRACKER_HTTP_PORT = "fastdfs.http_tracker_http_port";
 	public static final String PROP_KEY_TRACKER_SERVERS = "fastdfs.tracker_servers";
 
-
 	public static final String PROP_KEY_CONNECTION_POOL_ENABLED = "fastdfs.connection_pool.enabled";
 	public static final String PROP_KEY_CONNECTION_POOL_MAX_COUNT_PER_ENTRY = "fastdfs.connection_pool" +
 			".max_count_per_entry";
 	public static final String PROP_KEY_CONNECTION_POOL_MAX_IDLE_TIME = "fastdfs.connection_pool.max_idle_time";
 	public static final String PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS = "fastdfs.connection_pool" +
 			".max_wait_time_in_ms";
-
 
 	public static final int DEFAULT_CONNECT_TIMEOUT = 5; //second
 	public static final int DEFAULT_NETWORK_TIMEOUT = 30; //second
@@ -59,15 +57,15 @@ public class ClientGlobal {
 	public static int g_network_timeout = DEFAULT_NETWORK_TIMEOUT * 1000; //millisecond
 	public static String G_CHARSET = DEFAULT_CHARSET;
 	public static boolean g_anti_steal_token = DEFAULT_HTTP_ANTI_STEAL_TOKEN; //if anti-steal token
-	public static String g_secret_key = DEFAULT_HTTP_SECRET_KEY; //generage token secret key
+	public static String g_secret_key = DEFAULT_HTTP_SECRET_KEY; //generate token secret key
 	public static int g_tracker_http_port = DEFAULT_HTTP_TRACKER_HTTP_PORT;
 
 	public static boolean g_connection_pool_enabled = DEFAULT_CONNECTION_POOL_ENABLED;
 	public static int g_connection_pool_max_count_per_entry = DEFAULT_CONNECTION_POOL_MAX_COUNT_PER_ENTRY;
 	public static int g_connection_pool_max_idle_time = DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME * 1000; //millisecond
 	public static int g_connection_pool_max_wait_time_in_ms = DEFAULT_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS;
-	//millisecond
 
+	//millisecond
 	public static TrackerGroup g_tracker_group;
 
 	private ClientGlobal() {
@@ -89,7 +87,9 @@ public class ClientGlobal {
 		if (g_connect_timeout < 0) {
 			g_connect_timeout = DEFAULT_CONNECT_TIMEOUT;
 		}
-		g_connect_timeout *= 1000; //millisecond
+
+		//millisecond
+		g_connect_timeout *= 1000;
 
 		g_network_timeout = iniReader.getIntValue("network_timeout", DEFAULT_NETWORK_TIMEOUT);
 		if (g_network_timeout < 0) {
@@ -107,7 +107,7 @@ public class ClientGlobal {
 			throw new FastDfsException("item \"tracker_server\" in " + conf_filename + " not found");
 		}
 
-		InetSocketAddress[] tracker_servers = new InetSocketAddress[szTrackerServers.length];
+		InetSocketAddress[] trackerServers = new InetSocketAddress[szTrackerServers.length];
 		for (int i = 0; i < szTrackerServers.length; i++) {
 			parts = szTrackerServers[i].split("\\:", 2);
 			if (parts.length != 2) {
@@ -115,9 +115,9 @@ public class ClientGlobal {
 						"host:port");
 			}
 
-			tracker_servers[i] = new InetSocketAddress(parts[0].trim(), Integer.parseInt(parts[1].trim()));
+			trackerServers[i] = new InetSocketAddress(parts[0].trim(), Integer.parseInt(parts[1].trim()));
 		}
-		g_tracker_group = new TrackerGroup(tracker_servers);
+		g_tracker_group = new TrackerGroup(trackerServers);
 
 		g_tracker_http_port = iniReader.getIntValue("http.tracker_http_port", 80);
 		g_anti_steal_token = iniReader.getBoolValue("http.anti_steal_token", false);

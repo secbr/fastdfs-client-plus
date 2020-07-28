@@ -1,5 +1,7 @@
 package top.folen.fastdfs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import top.folen.common.FastDfsException;
 import top.folen.common.NameValuePair;
 
@@ -15,6 +17,8 @@ import java.io.IOException;
  */
 public class StorageClient1 extends StorageClient {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(StorageClient1.class);
+	
 	public static final String SPLIT_GROUP_NAME_AND_FILENAME_SEPARATOR = "/";
 
 	/**
@@ -715,7 +719,8 @@ public class StorageClient1 extends StorageClient {
 	 *                 the metadata item not exist, otherwise update it</li></ul>
 	 * @return 0 for success, !=0 fail (error code)
 	 */
-	public int setMetadata1(String fileId, NameValuePair[] metaList, byte opFlag) throws IOException, FastDfsException {
+	public int setMetadata1(String fileId, NameValuePair[] metaList, byte opFlag) throws IOException,
+			FastDfsException {
 		String[] parts = new String[2];
 		this.errno = splitFileId(fileId, parts);
 		if (this.errno != 0) {

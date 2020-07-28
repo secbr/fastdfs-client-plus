@@ -1,5 +1,7 @@
 package top.folen.fastdfs.pool;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import top.folen.common.FastDfsException;
 import top.folen.fastdfs.ClientGlobal;
 
@@ -12,6 +14,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionManager {
+
+	private static final Logger logger = LoggerFactory.getLogger(ConnectionManager.class);
 
 	private InetSocketAddress inetSocketAddress;
 
@@ -62,7 +66,7 @@ public class ConnectionManager {
 							isActive = connection.activeTest();
 						} catch (IOException e) {
 							System.err.println("send to server[" + inetSocketAddress.getAddress().getHostAddress() +
-                                    ":" + inetSocketAddress.getPort() + "] active test error ,emsg:" + e.getMessage());
+									":" + inetSocketAddress.getPort() + "] active test error ,emsg:" + e.getMessage());
 							isActive = false;
 						}
 						if (!isActive) {
@@ -78,13 +82,13 @@ public class ConnectionManager {
 				} else {
 					try {
 						if (condition.await(ClientGlobal.g_connection_pool_max_wait_time_in_ms,
-                                TimeUnit.MILLISECONDS)) {
+								TimeUnit.MILLISECONDS)) {
 							//wait single success
 							continue;
 						}
 						throw new FastDfsException("connect to server " + inetSocketAddress.getAddress().getHostAddress() + ":" + inetSocketAddress.getPort() + " fail, wait_time > " + ClientGlobal.g_connection_pool_max_wait_time_in_ms + "ms");
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						logger.error("建立连接异常", e);
 						throw new FastDfsException("connect to server " + inetSocketAddress.getAddress().getHostAddress() + ":" + inetSocketAddress.getPort() + " fail, emsg:" + e.getMessage());
 					}
 				}
@@ -108,7 +112,6 @@ public class ConnectionManager {
 		} finally {
 			lock.unlock();
 		}
-
 	}
 
 	public void closeConnection(Connection connection) {
@@ -118,8 +121,9 @@ public class ConnectionManager {
 				connection.closeDirectly();
 			}
 		} catch (IOException e) {
-			System.err.println("close socket[" + inetSocketAddress.getAddress().getHostAddress() + ":" + inetSocketAddress.getPort() + "] error ,emsg:" + e.getMessage());
-			e.printStackTrace();
+			logger.error("close socket[{}:{}] error.",
+					inetSocketAddress.getAddress().getHostAddress(),
+					inetSocketAddress.getPort(), e);
 		}
 	}
 
@@ -135,7 +139,6 @@ public class ConnectionManager {
 			}
 		}
 	}
-
 
 	@Override
 	public String toString() {

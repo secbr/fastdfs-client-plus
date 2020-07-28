@@ -1,5 +1,8 @@
 package top.folen.fastdfs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -10,6 +13,8 @@ import java.io.OutputStream;
  * @version Version 1.11
  */
 public class DownloadStream implements DownloadCallback {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DownloadStream.class);
 
 	private OutputStream out;
 
@@ -33,15 +38,13 @@ public class DownloadStream implements DownloadCallback {
 		try {
 			out.write(data, 0, bytes);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			LOGGER.error("写文件异常", ex);
 			return -1;
 		}
-
 		currentBytes += bytes;
 		if (this.currentBytes == fileSize) {
 			this.currentBytes = 0;
 		}
-
 		return 0;
 	}
 }

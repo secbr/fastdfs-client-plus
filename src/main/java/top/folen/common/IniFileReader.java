@@ -1,5 +1,8 @@
 package top.folen.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -12,6 +15,8 @@ import java.util.Hashtable;
  */
 public class IniFileReader {
 
+	private static Logger logger = LoggerFactory.getLogger(IniFileReader.class);
+
 	private Hashtable paramTable;
 
 	private String confFilename;
@@ -19,7 +24,7 @@ public class IniFileReader {
 	/**
 	 * @param confFilename config filename
 	 */
-	public IniFileReader(String confFilename) throws IOException {
+	public IniFileReader(String confFilename) {
 		this.confFilename = confFilename;
 		loadFromFile(confFilename);
 	}
@@ -44,7 +49,7 @@ public class IniFileReader {
 				in = classLoader().getResourceAsStream(filePath);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error("读取文件异常", ex);
 		}
 		return in;
 	}
@@ -138,24 +143,24 @@ public class IniFileReader {
 		return values;
 	}
 
-	private void loadFromFile(String confFilePath) throws IOException {
+	private void loadFromFile(String confFilePath) {
 		InputStream in = loadFromOsFileSystemOrClasspathAsStream(confFilePath);
 		try {
 			readToParamTable(in);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error("调用readToParamTable方法", ex);
 		} finally {
 			try {
 				if (in != null) {
 					in.close();
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("关闭读取文件留异常", ex);
 			}
 		}
 	}
 
-	private void readToParamTable(InputStream in) throws IOException {
+	private void readToParamTable(InputStream in) {
 		this.paramTable = new Hashtable();
 		if (in == null) {
 			return;
@@ -196,7 +201,7 @@ public class IniFileReader {
 				}
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error("读取文件异常", ex);
 		} finally {
 			try {
 				if (bufferedReader != null) {
@@ -206,7 +211,7 @@ public class IniFileReader {
 					inReader.close();
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				logger.error("关闭文件流异常", ex);
 			}
 		}
 	}
