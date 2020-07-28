@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="fastdfs-client-java" default="package" basedir=".">
+<project name="fastdfs-client-plus" default="package" basedir=".">
 
   <target name="init">
-    <property name="project.name" value="fastdfs-client-java"/>
-    <property name="project.version" value="1.27-SNAPSHOT"/>
+    <property name="project.name" value="fastdfs-client-plus"/>
+    <property name="project.version" value="1.1.2-SNAPSHOT"/>
     <property name="project.java" value="${basedir}/src/main/java"/>
     <property name="project.resources" value="${basedir}/src/main/resources"/>
     <property name="project.build" value="${basedir}/build"/>
