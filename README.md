@@ -5,26 +5,41 @@ FastDFS Java Client Plus API may be copied only under the terms of the BSD licen
 
 本项目分支来源于happyfish100官方fastdfs-client-java的1.29-SNAPSHOT版本，在此基础上进行逐步封装优化和二次开发，以便于更适合在项目中运用。
 
-## 使用ant从源码构建
+## 使用Maven依赖
+
+RELEASE相关版本已发布到Maven中央仓库，在项目的pom.xml文件中直接配置如下配置，即可引入对应依赖：
+```xml
+<dependency>
+    <groupId>com.github.secbr</groupId>
+    <artifactId>fastdfs-client-plus</artifactId>
+    <version>1.1.1-RELEASE</version>
+</dependency>
+```
+所需版本可根据需要进行替换对应的version，版本发布信息如下可访问该链接：https://github.com/secbr/fastdfs-client-plus/releases
+
+如果需要通过本地打包或修改源代码之后构建可采用以下方式中一种：
+
+### 使用ant从源码构建
 
 ```
 ant clean package
 ```
 
-## 使用maven从源码安装
+### 使用maven从源码安装
 
 ```
 mvn clean install
 ```
 
-## 使用maven从jar文件安装
+### 使用maven从jar文件安装
 ```
 mvn install:install-file -DgroupId=com.github.secbr -DartifactId=fastdfs-client-plus -Dversion=${version} -Dpackaging=jar
  -Dfile=fastdfs-client-plus-${version}.jar
 ```
 
-## 在您的maven项目pom.xml中添加依赖
+### 在maven项目pom.xml中添加依赖
 
+通过上述构建之后，可以使用如下配置来进行引入：
 ```xml
 <dependency>
     <groupId>com.github.secbr</groupId>
