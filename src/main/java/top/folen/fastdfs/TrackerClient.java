@@ -55,7 +55,7 @@ public class TrackerClient {
 	 *
 	 * @return tracker server Socket object, return null if fail
 	 */
-	public TrackerServer getTrackerServer() throws IOException {
+	public TrackerServer getTrackerServer() {
 		return this.trackerGroup.getTrackerServer();
 	}
 
