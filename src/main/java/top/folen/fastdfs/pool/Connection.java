@@ -12,7 +12,9 @@ import java.net.Socket;
 public class Connection {
 
     private Socket sock;
+
     private InetSocketAddress inetSockAddr;
+
     private Long lastAccessTime = System.currentTimeMillis();
 
     private boolean needActiveTest = false;
@@ -97,7 +99,7 @@ public class Connection {
         }
         return isConnected;
     }
-    public boolean isAvaliable() {
+    public boolean isAvailable() {
         if (isConnected()) {
             if (sock.getPort() == 0) {
                 return false;

@@ -46,7 +46,7 @@ public class TestClient1 {
         try {
             ClientGlobal.init(conf_filename);
             System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
-            System.out.println("charset=" + ClientGlobal.g_charset);
+            System.out.println("charset=" + ClientGlobal.G_CHARSET);
 
             String file_id;
 
@@ -90,10 +90,10 @@ public class TestClient1 {
             meta_list[2] = new NameValuePair("bgcolor", "#FFFFFF");
             meta_list[3] = new NameValuePair("author", "Mike");
 
-            file_buff = "this is a test".getBytes(ClientGlobal.g_charset);
+            file_buff = "this is a test".getBytes(ClientGlobal.G_CHARSET);
             System.out.println("file length: " + file_buff.length);
 
-            file_id = client.upload_file1(file_buff, "txt", meta_list);
+            file_id = client.uploadFile1(file_buff, "txt", meta_list);
   		/*
   		group_name = "group1";
   		file_id = client.upload_file1(group_name, file_buff, "txt", meta_list);
@@ -103,7 +103,7 @@ public class TestClient1 {
                 return;
             } else {
                 System.err.println("file_id: " + file_id);
-                System.err.println(client.get_file_info1(file_id));
+                System.err.println(client.getFileInfo1(file_id));
 
                 ServerInfo[] servers = tracker.getFetchStorages1(trackerServer, file_id);
                 if (servers == null) {
@@ -122,13 +122,13 @@ public class TestClient1 {
                 meta_list[2] = new NameValuePair("bgcolor", "#000000");
                 meta_list[3] = new NameValuePair("title", "Untitle");
 
-                if ((errno = client.set_metadata1(file_id, meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE)) == 0) {
+                if ((errno = client.setMetadata1(file_id, meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE)) == 0) {
                     System.err.println("set_metadata success");
                 } else {
                     System.err.println("set_metadata fail, error no: " + errno);
                 }
 
-                meta_list = client.get_metadata1(file_id);
+                meta_list = client.getMetadata1(file_id);
                 if (meta_list != null) {
                     for (int i = 0; i < meta_list.length; i++) {
                         System.out.println(meta_list[i].getName() + " " + meta_list[i].getValue());
@@ -137,7 +137,7 @@ public class TestClient1 {
 
                 //Thread.sleep(30000);
 
-                file_buff = client.download_file1(file_id);
+                file_buff = client.downloadFile1(file_id);
                 if (file_buff != null) {
                     System.out.println("file length:" + file_buff.length);
                     System.out.println((new String(file_buff)));
@@ -146,11 +146,11 @@ public class TestClient1 {
                 master_file_id = file_id;
                 prefix_name = "-part1";
                 file_ext_name = "txt";
-                file_buff = "this is a slave buff.".getBytes(ClientGlobal.g_charset);
-                slave_file_id = client.upload_file1(master_file_id, prefix_name, file_buff, file_ext_name, meta_list);
+                file_buff = "this is a slave buff.".getBytes(ClientGlobal.G_CHARSET);
+                slave_file_id = client.uploadFile1(master_file_id, prefix_name, file_buff, file_ext_name, meta_list);
                 if (slave_file_id != null) {
                     System.err.println("slave file_id: " + slave_file_id);
-                    System.err.println(client.get_file_info1(slave_file_id));
+                    System.err.println(client.getFileInfo1(slave_file_id));
 
                     generated_slave_file_id = ProtoCommon.genSlaveFilename(master_file_id, prefix_name, file_ext_name);
                     if (!generated_slave_file_id.equals(slave_file_id)) {
@@ -159,21 +159,21 @@ public class TestClient1 {
                 }
 
                 //Thread.sleep(10000);
-                if ((errno = client.delete_file1(file_id)) == 0) {
+                if ((errno = client.deleteFile1(file_id)) == 0) {
                     System.err.println("Delete file success");
                 } else {
                     System.err.println("Delete file fail, error no: " + errno);
                 }
             }
 
-            if ((file_id = client.upload_file1(local_filename, null, meta_list)) != null) {
+            if ((file_id = client.uploadFile1(local_filename, null, meta_list)) != null) {
                 int ts;
                 String token;
                 String file_url;
                 InetSocketAddress inetSockAddr;
 
                 System.err.println("file_id: " + file_id);
-                System.err.println(client.get_file_info1(file_id));
+                System.err.println(client.getFileInfo1(file_id));
 
                 inetSockAddr = trackerServer.getInetSocketAddress();
                 file_url = "http://" + inetSockAddr.getAddress().getHostAddress();
@@ -188,14 +188,14 @@ public class TestClient1 {
                 }
                 System.err.println("file url: " + file_url);
 
-                errno = client.download_file1(file_id, 0, 100, "c:\\" + file_id.replaceAll("/", "_"));
+                errno = client.downloadFile1(file_id, 0, 100, "c:\\" + file_id.replaceAll("/", "_"));
                 if (errno == 0) {
                     System.err.println("Download file success");
                 } else {
                     System.err.println("Download file fail, error no: " + errno);
                 }
 
-                errno = client.download_file1(file_id, new DownloadFileWriter("c:\\" + file_id.replaceAll("/", "-")));
+                errno = client.downloadFile1(file_id, new DownloadFileWriter("c:\\" + file_id.replaceAll("/", "-")));
                 if (errno == 0) {
                     System.err.println("Download file success");
                 } else {
@@ -205,10 +205,10 @@ public class TestClient1 {
                 master_file_id = file_id;
                 prefix_name = "-part2";
                 file_ext_name = null;
-                slave_file_id = client.upload_file1(master_file_id, prefix_name, local_filename, file_ext_name, meta_list);
+                slave_file_id = client.uploadFile1(master_file_id, prefix_name, local_filename, file_ext_name, meta_list);
                 if (slave_file_id != null) {
                     System.err.println("slave file_id: " + slave_file_id);
-                    System.err.println(client.get_file_info1(slave_file_id));
+                    System.err.println(client.getFileInfo1(slave_file_id));
 
                     generated_slave_file_id = ProtoCommon.genSlaveFilename(master_file_id, prefix_name, file_ext_name);
                     if (!generated_slave_file_id.equals(slave_file_id)) {
@@ -226,13 +226,13 @@ public class TestClient1 {
                 file_ext_name = null;
             }
 
-            file_id = client.upload_file1(null, f.length(), new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
+            file_id = client.uploadFile1(null, f.length(), new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
             if (file_id != null) {
                 System.out.println("file id: " + file_id);
-                System.out.println(client.get_file_info1(file_id));
+                System.out.println(client.getFileInfo1(file_id));
                 master_file_id = file_id;
                 prefix_name = "-part3";
-                slave_file_id = client.upload_file1(master_file_id, prefix_name, f.length(), new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
+                slave_file_id = client.uploadFile1(master_file_id, prefix_name, f.length(), new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
                 if (slave_file_id != null) {
                     System.err.println("slave file_id: " + slave_file_id);
                     generated_slave_file_id = ProtoCommon.genSlaveFilename(master_file_id, prefix_name, file_ext_name);

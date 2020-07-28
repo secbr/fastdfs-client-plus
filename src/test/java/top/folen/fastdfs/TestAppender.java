@@ -45,7 +45,7 @@ public class TestAppender {
     try {
       ClientGlobal.init(conf_filename);
       System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
-      System.out.println("charset=" + ClientGlobal.g_charset);
+      System.out.println("charset=" + ClientGlobal.G_CHARSET);
 
       long startTime;
       String group_name;
@@ -79,7 +79,7 @@ public class TestAppender {
       meta_list[2] = new NameValuePair("bgcolor", "#FFFFFF");
       meta_list[3] = new NameValuePair("author", "Mike");
 
-      file_buff = "this is a test".getBytes(ClientGlobal.g_charset);
+      file_buff = "this is a test".getBytes(ClientGlobal.G_CHARSET);
       System.out.println("file length: " + file_buff.length);
 
       group_name = null;
@@ -95,7 +95,7 @@ public class TestAppender {
       }
 
       startTime = System.currentTimeMillis();
-      results = client.upload_appender_file(file_buff, "txt", meta_list);
+      results = client.uploadAppenderFile(file_buff, "txt", meta_list);
       System.out.println("upload_appender_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
 
   		/*
@@ -109,7 +109,7 @@ public class TestAppender {
         group_name = results[0];
         remote_filename = results[1];
         System.err.println("group_name: " + group_name + ", remote_filename: " + remote_filename);
-        System.err.println(client.get_file_info(group_name, remote_filename));
+        System.err.println(client.getFileInfo(group_name, remote_filename));
 
         servers = tracker.getFetchStorages(trackerServer, group_name, remote_filename);
         if (servers == null) {
@@ -129,7 +129,7 @@ public class TestAppender {
         meta_list[3] = new NameValuePair("title", "Untitle");
 
         startTime = System.currentTimeMillis();
-        errno = client.set_metadata(group_name, remote_filename, meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE);
+        errno = client.setMetadata(group_name, remote_filename, meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE);
         System.out.println("set_metadata time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
           System.err.println("set_metadata success");
@@ -137,7 +137,7 @@ public class TestAppender {
           System.err.println("set_metadata fail, error no: " + errno);
         }
 
-        meta_list = client.get_metadata(group_name, remote_filename);
+        meta_list = client.getMetadata(group_name, remote_filename);
         if (meta_list != null) {
           for (int i = 0; i < meta_list.length; i++) {
             System.out.println(meta_list[i].getName() + " " + meta_list[i].getValue());
@@ -147,7 +147,7 @@ public class TestAppender {
         //Thread.sleep(30000);
 
         startTime = System.currentTimeMillis();
-        file_buff = client.download_file(group_name, remote_filename);
+        file_buff = client.downloadFile(group_name, remote_filename);
         System.out.println("download_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
 
         if (file_buff != null) {
@@ -155,31 +155,31 @@ public class TestAppender {
           System.out.println((new String(file_buff)));
         }
 
-        file_buff = "this is a slave buff".getBytes(ClientGlobal.g_charset);
+        file_buff = "this is a slave buff".getBytes(ClientGlobal.G_CHARSET);
         appender_filename = remote_filename;
         file_ext_name = "txt";
         startTime = System.currentTimeMillis();
-        errno = client.append_file(group_name, appender_filename, file_buff);
+        errno = client.appendFile(group_name, appender_filename, file_buff);
         System.out.println("append_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
-          System.err.println(client.get_file_info(group_name, appender_filename));
+          System.err.println(client.getFileInfo(group_name, appender_filename));
         } else {
           System.err.println("append file fail, error no: " + errno);
         }
 
         startTime = System.currentTimeMillis();
-        results  = client.regenerate_appender_filename(group_name, appender_filename);
+        results  = client.regenerateAppenderFilename(group_name, appender_filename);
         System.out.println("regenerate_appender_filename time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
           group_name = results[0];
           appender_filename = results[1];
-          System.err.println(client.get_file_info(group_name, appender_filename));
+          System.err.println(client.getFileInfo(group_name, appender_filename));
         } else {
           System.err.println("regenerate_appender_filename fail, error no: " + errno);
         }
 
         startTime = System.currentTimeMillis();
-        errno = client.delete_file(group_name, remote_filename);
+        errno = client.deleteFile(group_name, remote_filename);
         System.out.println("delete_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
           System.err.println("Delete file success");
@@ -188,7 +188,7 @@ public class TestAppender {
         }
       }
 
-      results = client.upload_appender_file(local_filename, null, meta_list);
+      results = client.uploadAppenderFile(local_filename, null, meta_list);
       if (results != null) {
         String file_id;
         int ts;
@@ -198,7 +198,7 @@ public class TestAppender {
 
         group_name = results[0];
         remote_filename = results[1];
-        file_id = group_name + StorageClient1.SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + remote_filename;
+        file_id = group_name + StorageClient1.SPLIT_GROUP_NAME_AND_FILENAME_SEPARATOR + remote_filename;
 
         inetSockAddr = trackerServer.getInetSocketAddress();
         file_url = "http://" + inetSockAddr.getAddress().getHostAddress();
@@ -213,17 +213,17 @@ public class TestAppender {
         }
 
         System.err.println("group_name: " + group_name + ", remote_filename: " + remote_filename);
-        System.err.println(client.get_file_info(group_name, remote_filename));
+        System.err.println(client.getFileInfo(group_name, remote_filename));
         System.err.println("file url: " + file_url);
 
-        errno = client.download_file(group_name, remote_filename, 0, 0, "c:\\" + remote_filename.replaceAll("/", "_"));
+        errno = client.downloadFile(group_name, remote_filename, 0, 0, "c:\\" + remote_filename.replaceAll("/", "_"));
         if (errno == 0) {
           System.err.println("Download file success");
         } else {
           System.err.println("Download file fail, error no: " + errno);
         }
 
-        errno = client.download_file(group_name, remote_filename, 0, 0, new DownloadFileWriter("c:\\" + remote_filename.replaceAll("/", "-")));
+        errno = client.downloadFile(group_name, remote_filename, 0, 0, new DownloadFileWriter("c:\\" + remote_filename.replaceAll("/", "-")));
         if (errno == 0) {
           System.err.println("Download file success");
         } else {
@@ -233,10 +233,10 @@ public class TestAppender {
         appender_filename = remote_filename;
         file_ext_name = null;
         startTime = System.currentTimeMillis();
-        errno = client.append_file(group_name, appender_filename, local_filename);
+        errno = client.appendFile(group_name, appender_filename, local_filename);
         System.out.println("append_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
-          System.err.println(client.get_file_info(group_name, appender_filename));
+          System.err.println(client.getFileInfo(group_name, appender_filename));
         } else {
           System.err.println("append file fail, error no: " + errno);
         }
@@ -251,39 +251,39 @@ public class TestAppender {
         file_ext_name = null;
       }
 
-      results = client.upload_appender_file(null, f.length(),
+      results = client.uploadAppenderFile(null, f.length(),
         new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
       if (results != null) {
         group_name = results[0];
         remote_filename = results[1];
 
         System.out.println("group name: " + group_name + ", remote filename: " + remote_filename);
-        System.out.println(client.get_file_info(group_name, remote_filename));
+        System.out.println(client.getFileInfo(group_name, remote_filename));
 
         appender_filename = remote_filename;
         startTime = System.currentTimeMillis();
-        errno = client.append_file(group_name, appender_filename, f.length(), new UploadLocalFileSender(local_filename));
+        errno = client.appendFile(group_name, appender_filename, f.length(), new UploadLocalFileSender(local_filename));
         System.out.println("append_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
-          System.err.println(client.get_file_info(group_name, appender_filename));
+          System.err.println(client.getFileInfo(group_name, appender_filename));
         } else {
           System.err.println("append file fail, error no: " + errno);
         }
 
         startTime = System.currentTimeMillis();
-        errno = client.modify_file(group_name, appender_filename, 0, f.length(), new UploadLocalFileSender(local_filename));
+        errno = client.modifyFile(group_name, appender_filename, 0, f.length(), new UploadLocalFileSender(local_filename));
         System.out.println("modify_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
-          System.err.println(client.get_file_info(group_name, appender_filename));
+          System.err.println(client.getFileInfo(group_name, appender_filename));
         } else {
           System.err.println("modify file fail, error no: " + errno);
         }
 
         startTime = System.currentTimeMillis();
-        errno = client.truncate_file(group_name, appender_filename);
+        errno = client.truncateFile(group_name, appender_filename);
         System.out.println("truncate_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
         if (errno == 0) {
-          System.err.println(client.get_file_info(group_name, appender_filename));
+          System.err.println(client.getFileInfo(group_name, appender_filename));
         } else {
           System.err.println("truncate file fail, error no: " + errno);
         }

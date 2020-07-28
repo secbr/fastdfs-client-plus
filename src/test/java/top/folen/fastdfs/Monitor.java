@@ -37,7 +37,7 @@ public class Monitor {
     try {
       ClientGlobal.init(args[0]);
       System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
-      System.out.println("charset=" + ClientGlobal.g_charset);
+      System.out.println("charset=" + ClientGlobal.G_CHARSET);
 
       TrackerClient tracker = new TrackerClient();
 

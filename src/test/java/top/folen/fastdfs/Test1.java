@@ -33,7 +33,7 @@ public class Test1 {
 
             ClientGlobal.init(conf_filename);
             System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
-            System.out.println("charset=" + ClientGlobal.g_charset);
+            System.out.println("charset=" + ClientGlobal.G_CHARSET);
 
             TrackerGroup tg = new TrackerGroup(new InetSocketAddress[]{new InetSocketAddress("47.95.221.159", 22122)});
             TrackerClient tc = new TrackerClient(tg);
@@ -52,7 +52,7 @@ public class Test1 {
             StorageClient1 sc1 = new StorageClient1(ts, ss);
 
             NameValuePair[] meta_list = null;  //new NameValuePair[0];
-            String fileid = sc1.upload_file1(local_filename, ext_name, meta_list);
+            String fileid = sc1.uploadFile1(local_filename, ext_name, meta_list);
             System.out.println("Upload local file " + local_filename + " ok, fileid: " + fileid);
         } catch (Exception ex) {
             ex.printStackTrace();

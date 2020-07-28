@@ -45,7 +45,7 @@ public class TestClient {
         try {
             ClientGlobal.init(conf_filename);
             System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
-            System.out.println("charset=" + ClientGlobal.g_charset);
+            System.out.println("charset=" + ClientGlobal.G_CHARSET);
 
             long startTime;
             String group_name;
@@ -81,7 +81,7 @@ public class TestClient {
             meta_list[2] = new NameValuePair("bgcolor", "#FFFFFF");
             meta_list[3] = new NameValuePair("author", "Mike");
 
-            file_buff = "this is a test".getBytes(ClientGlobal.g_charset);
+            file_buff = "this is a test".getBytes(ClientGlobal.G_CHARSET);
             System.out.println("file length: " + file_buff.length);
 
             group_name = null;
@@ -97,7 +97,7 @@ public class TestClient {
             }
 
             startTime = System.currentTimeMillis();
-            results = client.upload_file(file_buff, "txt", meta_list);
+            results = client.uploadFile(file_buff, "txt", meta_list);
             System.out.println("upload_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
 
   		/*
@@ -111,7 +111,7 @@ public class TestClient {
                 group_name = results[0];
                 remote_filename = results[1];
                 System.err.println("group_name: " + group_name + ", remote_filename: " + remote_filename);
-                System.err.println(client.get_file_info(group_name, remote_filename));
+                System.err.println(client.getFileInfo(group_name, remote_filename));
 
                 servers = tracker.getFetchStorages(trackerServer, group_name, remote_filename);
                 if (servers == null) {
@@ -131,7 +131,7 @@ public class TestClient {
                 meta_list[3] = new NameValuePair("title", "Untitle");
 
                 startTime = System.currentTimeMillis();
-                errno = client.set_metadata(group_name, remote_filename, meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE);
+                errno = client.setMetadata(group_name, remote_filename, meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE);
                 System.out.println("set_metadata time used: " + (System.currentTimeMillis() - startTime) + " ms");
                 if (errno == 0) {
                     System.err.println("set_metadata success");
@@ -139,7 +139,7 @@ public class TestClient {
                     System.err.println("set_metadata fail, error no: " + errno);
                 }
 
-                meta_list = client.get_metadata(group_name, remote_filename);
+                meta_list = client.getMetadata(group_name, remote_filename);
                 if (meta_list != null) {
                     for (int i = 0; i < meta_list.length; i++) {
                         System.out.println(meta_list[i].getName() + " " + meta_list[i].getValue());
@@ -149,7 +149,7 @@ public class TestClient {
                 //Thread.sleep(30000);
 
                 startTime = System.currentTimeMillis();
-                file_buff = client.download_file(group_name, remote_filename);
+                file_buff = client.downloadFile(group_name, remote_filename);
                 System.out.println("download_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
 
                 if (file_buff != null) {
@@ -157,12 +157,12 @@ public class TestClient {
                     System.out.println((new String(file_buff)));
                 }
 
-                file_buff = "this is a slave buff".getBytes(ClientGlobal.g_charset);
+                file_buff = "this is a slave buff".getBytes(ClientGlobal.G_CHARSET);
                 master_filename = remote_filename;
                 prefix_name = "-part1";
                 file_ext_name = "txt";
                 startTime = System.currentTimeMillis();
-                results = client.upload_file(group_name, master_filename, prefix_name, file_buff, file_ext_name, meta_list);
+                results = client.uploadFile(group_name, master_filename, prefix_name, file_buff, file_ext_name, meta_list);
                 System.out.println("upload_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
                 if (results != null) {
                     System.err.println("slave file group_name: " + results[0] + ", remote_filename: " + results[1]);
@@ -172,11 +172,11 @@ public class TestClient {
                         System.err.println("generated slave file: " + generated_slave_filename + "\n != returned slave file: " + results[1]);
                     }
 
-                    System.err.println(client.get_file_info(results[0], results[1]));
+                    System.err.println(client.getFileInfo(results[0], results[1]));
                 }
 
                 startTime = System.currentTimeMillis();
-                errno = client.delete_file(group_name, remote_filename);
+                errno = client.deleteFile(group_name, remote_filename);
                 System.out.println("delete_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
                 if (errno == 0) {
                     System.err.println("Delete file success");
@@ -185,7 +185,7 @@ public class TestClient {
                 }
             }
 
-            results = client.upload_file(local_filename, null, meta_list);
+            results = client.uploadFile(local_filename, null, meta_list);
             if (results != null) {
                 String file_id;
                 int ts;
@@ -195,7 +195,7 @@ public class TestClient {
 
                 group_name = results[0];
                 remote_filename = results[1];
-                file_id = group_name + StorageClient1.SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + remote_filename;
+                file_id = group_name + StorageClient1.SPLIT_GROUP_NAME_AND_FILENAME_SEPARATOR + remote_filename;
 
                 inetSockAddr = trackerServer.getInetSocketAddress();
                 file_url = "http://" + inetSockAddr.getAddress().getHostAddress();
@@ -210,17 +210,17 @@ public class TestClient {
                 }
 
                 System.err.println("group_name: " + group_name + ", remote_filename: " + remote_filename);
-                System.err.println(client.get_file_info(group_name, remote_filename));
+                System.err.println(client.getFileInfo(group_name, remote_filename));
                 System.err.println("file url: " + file_url);
 
-                errno = client.download_file(group_name, remote_filename, 0, 0, "c:\\" + remote_filename.replaceAll("/", "_"));
+                errno = client.downloadFile(group_name, remote_filename, 0, 0, "c:\\" + remote_filename.replaceAll("/", "_"));
                 if (errno == 0) {
                     System.err.println("Download file success");
                 } else {
                     System.err.println("Download file fail, error no: " + errno);
                 }
 
-                errno = client.download_file(group_name, remote_filename, 0, 0, new DownloadFileWriter("c:\\" + remote_filename.replaceAll("/", "-")));
+                errno = client.downloadFile(group_name, remote_filename, 0, 0, new DownloadFileWriter("c:\\" + remote_filename.replaceAll("/", "-")));
                 if (errno == 0) {
                     System.err.println("Download file success");
                 } else {
@@ -231,7 +231,7 @@ public class TestClient {
                 prefix_name = "-part2";
                 file_ext_name = null;
                 startTime = System.currentTimeMillis();
-                results = client.upload_file(group_name, master_filename, prefix_name, local_filename, null, meta_list);
+                results = client.uploadFile(group_name, master_filename, prefix_name, local_filename, null, meta_list);
                 System.out.println("upload_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
                 if (results != null) {
                     System.err.println("slave file group_name: " + results[0] + ", remote_filename: " + results[1]);
@@ -241,7 +241,7 @@ public class TestClient {
                         System.err.println("generated slave file: " + generated_slave_filename + "\n != returned slave file: " + results[1]);
                     }
 
-                    System.err.println(client.get_file_info(results[0], results[1]));
+                    System.err.println(client.getFileInfo(results[0], results[1]));
                 }
             }
 
@@ -254,19 +254,19 @@ public class TestClient {
                 file_ext_name = null;
             }
 
-            results = client.upload_file(null, f.length(),
+            results = client.uploadFile(null, f.length(),
                     new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
             if (results != null) {
                 group_name = results[0];
                 remote_filename = results[1];
 
                 System.out.println("group name: " + group_name + ", remote filename: " + remote_filename);
-                System.out.println(client.get_file_info(group_name, remote_filename));
+                System.out.println(client.getFileInfo(group_name, remote_filename));
 
                 master_filename = remote_filename;
                 prefix_name = "-part3";
                 startTime = System.currentTimeMillis();
-                results = client.upload_file(group_name, master_filename, prefix_name, f.length(), new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
+                results = client.uploadFile(group_name, master_filename, prefix_name, f.length(), new UploadLocalFileSender(local_filename), file_ext_name, meta_list);
                 System.out.println("upload_file time used: " + (System.currentTimeMillis() - startTime) + " ms");
                 if (results != null) {
                     System.err.println("slave file group_name: " + results[0] + ", remote_filename: " + results[1]);
@@ -276,7 +276,7 @@ public class TestClient {
                         System.err.println("generated slave file: " + generated_slave_filename + "\n != returned slave file: " + results[1]);
                     }
 
-                    System.err.println(client.get_file_info(results[0], results[1]));
+                    System.err.println(client.getFileInfo(results[0], results[1]));
                 }
             } else {
                 System.err.println("Upload file fail, error no: " + errno);
