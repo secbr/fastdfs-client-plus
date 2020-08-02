@@ -19,30 +19,33 @@ import java.util.Properties;
  */
 public class ClientGlobal {
 
-	public static final String CONF_KEY_CONNECT_TIMEOUT = "connect_timeout";
-	public static final String CONF_KEY_NETWORK_TIMEOUT = "network_timeout";
-	public static final String CONF_KEY_CHARSET = "charset";
-	public static final String CONF_KEY_HTTP_ANTI_STEAL_TOKEN = "http.anti_steal_token";
-	public static final String CONF_KEY_HTTP_SECRET_KEY = "http.secret_key";
-	public static final String CONF_KEY_HTTP_TRACKER_HTTP_PORT = "http.tracker_http_port";
-	public static final String CONF_KEY_TRACKER_SERVER = "tracker_server";
-	public static final String PROP_KEY_CONNECT_TIMEOUT_IN_SECONDS = "fastdfs.connect_timeout_in_seconds";
-	public static final String PROP_KEY_NETWORK_TIMEOUT_IN_SECONDS = "fastdfs.network_timeout_in_seconds";
-	public static final String PROP_KEY_CHARSET = "fastdfs.charset";
-	public static final String PROP_KEY_HTTP_ANTI_STEAL_TOKEN = "fastdfs.http_anti_steal_token";
-	public static final String PROP_KEY_HTTP_SECRET_KEY = "fastdfs.http_secret_key";
-	public static final String PROP_KEY_HTTP_TRACKER_HTTP_PORT = "fastdfs.http_tracker_http_port";
-	public static final String PROP_KEY_TRACKER_SERVERS = "fastdfs.tracker_servers";
-
-	public static final String PROP_KEY_CONNECTION_POOL_ENABLED = "fastdfs.connection_pool.enabled";
-	public static final String PROP_KEY_CONNECTION_POOL_MAX_COUNT_PER_ENTRY = "fastdfs.connection_pool" +
+	// 配置文件对应的key值
+	private static final String CONF_KEY_CONNECT_TIMEOUT = "connect_timeout";
+	private static final String CONF_KEY_NETWORK_TIMEOUT = "network_timeout";
+	private static final String CONF_KEY_CHARSET = "charset";
+	private static final String CONF_KEY_HTTP_ANTI_STEAL_TOKEN = "http.anti_steal_token";
+	private static final String CONF_KEY_HTTP_SECRET_KEY = "http.secret_key";
+	private static final String CONF_KEY_HTTP_TRACKER_HTTP_PORT = "http.tracker_http_port";
+	private static final String CONF_KEY_TRACKER_SERVER = "tracker_server";
+	private static final String PROP_KEY_CONNECT_TIMEOUT_IN_SECONDS = "fastdfs.connect_timeout_in_seconds";
+	private static final String PROP_KEY_NETWORK_TIMEOUT_IN_SECONDS = "fastdfs.network_timeout_in_seconds";
+	private static final String PROP_KEY_CHARSET = "fastdfs.charset";
+	private static final String PROP_KEY_HTTP_ANTI_STEAL_TOKEN = "fastdfs.http_anti_steal_token";
+	private static final String PROP_KEY_HTTP_SECRET_KEY = "fastdfs.http_secret_key";
+	private static final String PROP_KEY_HTTP_TRACKER_HTTP_PORT = "fastdfs.http_tracker_http_port";
+	private static final String PROP_KEY_TRACKER_SERVERS = "fastdfs.tracker_servers";
+	private static final String PROP_KEY_CONNECTION_POOL_ENABLED = "fastdfs.connection_pool.enabled";
+	private static final String PROP_KEY_CONNECTION_POOL_MAX_COUNT_PER_ENTRY = "fastdfs.connection_pool" +
 			".max_count_per_entry";
-	public static final String PROP_KEY_CONNECTION_POOL_MAX_IDLE_TIME = "fastdfs.connection_pool.max_idle_time";
-	public static final String PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS = "fastdfs.connection_pool" +
+	private static final String PROP_KEY_CONNECTION_POOL_MAX_IDLE_TIME = "fastdfs.connection_pool.max_idle_time";
+	private static final String PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS = "fastdfs.connection_pool" +
 			".max_wait_time_in_ms";
 
-	public static final int DEFAULT_CONNECT_TIMEOUT = 5; //second
-	public static final int DEFAULT_NETWORK_TIMEOUT = 30; //second
+	// 配置的具体属性值
+	// second
+	public static final int DEFAULT_CONNECT_TIMEOUT = 5;
+	// second
+	public static final int DEFAULT_NETWORK_TIMEOUT = 30;
 	public static final String DEFAULT_CHARSET = "UTF-8";
 	public static final boolean DEFAULT_HTTP_ANTI_STEAL_TOKEN = false;
 	public static final String DEFAULT_HTTP_SECRET_KEY = "FastDFS1234567890";
@@ -50,19 +53,25 @@ public class ClientGlobal {
 
 	public static final boolean DEFAULT_CONNECTION_POOL_ENABLED = true;
 	public static final int DEFAULT_CONNECTION_POOL_MAX_COUNT_PER_ENTRY = 100;
-	public static final int DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME = 3600;//second
-	public static final int DEFAULT_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS = 1000;//millisecond
-
-	public static int g_connect_timeout = DEFAULT_CONNECT_TIMEOUT * 1000; //millisecond
-	public static int g_network_timeout = DEFAULT_NETWORK_TIMEOUT * 1000; //millisecond
+	//second
+	public static final int DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME = 3600;
+	//millisecond
+	public static final int DEFAULT_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS = 1000;
+	//millisecond
+	public static int g_connect_timeout = DEFAULT_CONNECT_TIMEOUT * 1000;
+	//millisecond
+	public static int g_network_timeout = DEFAULT_NETWORK_TIMEOUT * 1000;
 	public static String G_CHARSET = DEFAULT_CHARSET;
-	public static boolean g_anti_steal_token = DEFAULT_HTTP_ANTI_STEAL_TOKEN; //if anti-steal token
-	public static String g_secret_key = DEFAULT_HTTP_SECRET_KEY; //generate token secret key
+	//if anti-steal token
+	public static boolean g_anti_steal_token = DEFAULT_HTTP_ANTI_STEAL_TOKEN;
+	//generate token secret key
+	public static String g_secret_key = DEFAULT_HTTP_SECRET_KEY;
 	public static int g_tracker_http_port = DEFAULT_HTTP_TRACKER_HTTP_PORT;
 
 	public static boolean g_connection_pool_enabled = DEFAULT_CONNECTION_POOL_ENABLED;
 	public static int g_connection_pool_max_count_per_entry = DEFAULT_CONNECTION_POOL_MAX_COUNT_PER_ENTRY;
-	public static int g_connection_pool_max_idle_time = DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME * 1000; //millisecond
+	//millisecond
+	public static int g_connection_pool_max_idle_time = DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME * 1000;
 	public static int g_connection_pool_max_wait_time_in_ms = DEFAULT_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS;
 
 	//millisecond
@@ -251,70 +260,6 @@ public class ClientGlobal {
 		return sock;
 	}
 
-	public static int getG_connect_timeout() {
-		return g_connect_timeout;
-	}
-
-	public static void setG_connect_timeout(int connect_timeout) {
-		ClientGlobal.g_connect_timeout = connect_timeout;
-	}
-
-	public static int getG_network_timeout() {
-		return g_network_timeout;
-	}
-
-	public static void setG_network_timeout(int network_timeout) {
-		ClientGlobal.g_network_timeout = network_timeout;
-	}
-
-	public static String getgCharset() {
-		return G_CHARSET;
-	}
-
-	public static void setgCharset(String charset) {
-		ClientGlobal.G_CHARSET = charset;
-	}
-
-	public static int getG_tracker_http_port() {
-		return g_tracker_http_port;
-	}
-
-	public static void setG_tracker_http_port(int tracker_http_port) {
-		ClientGlobal.g_tracker_http_port = tracker_http_port;
-	}
-
-	public static boolean getG_anti_steal_token() {
-		return g_anti_steal_token;
-	}
-
-	public static boolean isG_anti_steal_token() {
-		return g_anti_steal_token;
-	}
-
-	public static void setG_anti_steal_token(boolean anti_steal_token) {
-		ClientGlobal.g_anti_steal_token = anti_steal_token;
-	}
-
-	public static String getG_secret_key() {
-		return g_secret_key;
-	}
-
-	public static void setG_secret_key(String secret_key) {
-		ClientGlobal.g_secret_key = secret_key;
-	}
-
-	public static TrackerGroup getgTrackerGroup() {
-		return G_TRACKER_GROUP;
-	}
-
-	public static void setgTrackerGroup(TrackerGroup tracker_group) {
-		ClientGlobal.G_TRACKER_GROUP = tracker_group;
-	}
-
-	public static boolean isG_connection_pool_enabled() {
-		return g_connection_pool_enabled;
-	}
-
 	public static String configInfo() {
 		StringBuilder trackerServers = new StringBuilder();
 		if (G_TRACKER_GROUP != null) {
@@ -329,7 +274,7 @@ public class ClientGlobal {
 		return "{"
 				+ "\n  g_connect_timeout(ms) = " + g_connect_timeout
 				+ "\n  g_network_timeout(ms) = " + g_network_timeout
-				+ "\n  g_charset = " + G_CHARSET
+				+ "\n  G_CHARSET = " + G_CHARSET
 				+ "\n  g_anti_steal_token = " + g_anti_steal_token
 				+ "\n  g_secret_key = " + g_secret_key
 				+ "\n  g_tracker_http_port = " + g_tracker_http_port

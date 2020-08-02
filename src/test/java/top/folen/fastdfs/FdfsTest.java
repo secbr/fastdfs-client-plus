@@ -42,8 +42,6 @@ public class FdfsTest {
 		if (storageClient != null) {
 			try {
 				storageClient.close();
-			} catch (Exception e) {
-				e.printStackTrace();
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
