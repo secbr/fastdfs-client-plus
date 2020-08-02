@@ -18,42 +18,45 @@ import java.io.IOException;
  * @version Version 1.3
  */
 public class DownloadFileWriter implements DownloadCallback {
-  private String filename;
-  private FileOutputStream out = null;
-  private long current_bytes = 0;
 
-  public DownloadFileWriter(String filename) {
-    this.filename = filename;
-  }
+	private String filename;
 
-  @Override
-  public int recv(long file_size, byte[] data, int bytes) {
-    try {
-      if (this.out == null) {
-        this.out = new FileOutputStream(this.filename);
-      }
+	private FileOutputStream out = null;
 
-      this.out.write(data, 0, bytes);
-      this.current_bytes += bytes;
+	private long current_bytes = 0;
 
-      if (this.current_bytes == file_size) {
-        this.out.close();
-        this.out = null;
-        this.current_bytes = 0;
-      }
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      return -1;
-    }
+	public DownloadFileWriter(String filename) {
+		this.filename = filename;
+	}
 
-    return 0;
-  }
+	@Override
+	public int recv(long file_size, byte[] data, int bytes) {
+		try {
+			if (this.out == null) {
+				this.out = new FileOutputStream(this.filename);
+			}
 
-  protected void finalize() throws Throwable {
-    if (this.out != null) {
-      this.out.close();
-      this.out = null;
-    }
-  }
+			this.out.write(data, 0, bytes);
+			this.current_bytes += bytes;
+
+			if (this.current_bytes == file_size) {
+				this.out.close();
+				this.out = null;
+				this.current_bytes = 0;
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+
+		return 0;
+	}
+
+	protected void finalize() throws Throwable {
+		if (this.out != null) {
+			this.out.close();
+			this.out = null;
+		}
+	}
 }
 

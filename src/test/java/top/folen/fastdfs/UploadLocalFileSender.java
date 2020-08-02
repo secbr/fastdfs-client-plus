@@ -1,11 +1,3 @@
-/**
- * Copyright (C) 2008 Happy Fish / YuQing
- * <p>
- * FastDFS Java Client may be copied only under the terms of the GNU Lesser
- * General Public License (LGPL).
- * Please visit the FastDFS Home Page http://www.csource.org/ for more detail.
- */
-
 package top.folen.fastdfs;
 
 import java.io.FileInputStream;
@@ -19,37 +11,38 @@ import java.io.OutputStream;
  * @version Version 1.0
  */
 public class UploadLocalFileSender implements UploadCallback {
-  private String local_filename;
 
-  public UploadLocalFileSender(String szLocalFilename) {
-    this.local_filename = szLocalFilename;
-  }
+	private String localFilename;
 
-  /**
-   * send file content callback function, be called only once when the file uploaded
-   *
-   * @param out output stream for writing file content
-   * @return 0 success, return none zero(errno) if fail
-   */
-  @Override
-  public int send(OutputStream out) throws IOException {
-    FileInputStream fis;
-    int readBytes;
-    byte[] buff = new byte[256 * 1024];
+	public UploadLocalFileSender(String szLocalFilename) {
+		this.localFilename = szLocalFilename;
+	}
 
-    fis = new FileInputStream(this.local_filename);
-    try {
-      while ((readBytes = fis.read(buff)) >= 0) {
-        if (readBytes == 0) {
-          continue;
-        }
+	/**
+	 * send file content callback function, be called only once when the file uploaded
+	 *
+	 * @param out output stream for writing file content
+	 * @return 0 success, return none zero(errno) if fail
+	 */
+	@Override
+	public int send(OutputStream out) throws IOException {
+		FileInputStream fis;
+		int readBytes;
+		byte[] buff = new byte[256 * 1024];
 
-        out.write(buff, 0, readBytes);
-      }
-    } finally {
-      fis.close();
-    }
+		fis = new FileInputStream(this.localFilename);
+		try {
+			while ((readBytes = fis.read(buff)) >= 0) {
+				if (readBytes == 0) {
+					continue;
+				}
 
-    return 0;
-  }
+				out.write(buff, 0, readBytes);
+			}
+		} finally {
+			fis.close();
+		}
+
+		return 0;
+	}
 }

@@ -15,7 +15,7 @@ import java.util.Hashtable;
  */
 public class IniFileReader {
 
-	private static Logger logger = LoggerFactory.getLogger(IniFileReader.class);
+	private static final Logger logger = LoggerFactory.getLogger(IniFileReader.class);
 
 	private Hashtable paramTable;
 
@@ -43,13 +43,12 @@ public class IniFileReader {
 			// 优先从文件系统路径加载
 			if (new File(filePath).exists()) {
 				in = new FileInputStream(filePath);
-			}
-			// 从类路径加载
-			else {
+			} else {
+				// 从类路径加载
 				in = classLoader().getResourceAsStream(filePath);
 			}
 		} catch (Exception ex) {
-			logger.error("读取文件异常", ex);
+			logger.error("读取文件{}异常", filePath, ex);
 		}
 		return in;
 	}
@@ -70,8 +69,7 @@ public class IniFileReader {
 	 * @return string value
 	 */
 	public String getStrValue(String name) {
-		Object obj;
-		obj = this.paramTable.get(name);
+		Object obj = this.paramTable.get(name);
 		if (obj == null) {
 			return null;
 		}
@@ -95,8 +93,23 @@ public class IniFileReader {
 		if (szValue == null) {
 			return defaultValue;
 		}
-
 		return Integer.parseInt(szValue);
+	}
+
+	/**
+	 * 获取int值，文件配置改值需大于等0，否则采用默认值
+	 *
+	 * @param name         item name in config file
+	 * @param defaultValue the default value
+	 * @return int value
+	 */
+	public int getPositiveIntValue(String name, int defaultValue) {
+		String confValue = this.getStrValue(name);
+		if (confValue == null || "".equals(confValue)) {
+			return defaultValue;
+		}
+		int value = Integer.parseInt(confValue);
+		return value < 0 ? defaultValue : value;
 	}
 
 	/**

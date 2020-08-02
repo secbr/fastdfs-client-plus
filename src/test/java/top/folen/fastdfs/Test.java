@@ -17,50 +17,51 @@ import top.folen.common.NameValuePair;
  * @version Version 1.18
  */
 public class Test {
-  private Test() {
-  }
 
-  /**
-   * entry point
-   *
-   * @param args comand arguments
-   *             <ul><li>args[0]: config filename</li></ul>
-   *             <ul><li>args[1]: local filename to upload</li></ul>
-   */
-  public static void main(String args[]) {
-    if (args.length < 2) {
-      System.out.println("Error: Must have 2 parameters, one is config filename, "
-        + "the other is the local filename to upload");
-      return;
-    }
+	private Test() {
+	}
 
-    System.out.println("java.version=" + System.getProperty("java.version"));
+	/**
+	 * entry point
+	 *
+	 * @param args comand arguments
+	 *             <ul><li>args[0]: config filename</li></ul>
+	 *             <ul><li>args[1]: local filename to upload</li></ul>
+	 */
+	public static void main(String args[]) {
+		if (args.length < 2) {
+			System.out.println("Error: Must have 2 parameters, one is config filename, "
+					+ "the other is the local filename to upload");
+			return;
+		}
 
-    String conf_filename = args[0];
-    String local_filename = args[1];
+		System.out.println("java.version=" + System.getProperty("java.version"));
 
-    try {
-      ClientGlobal.init(conf_filename);
-      System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
-      System.out.println("charset=" + ClientGlobal.G_CHARSET);
+		String conf_filename = args[0];
+		String local_filename = args[1];
 
-      TrackerClient tracker = new TrackerClient();
-      TrackerServer trackerServer = tracker.getTrackerServer();
-      StorageServer storageServer = null;
-      StorageClient1 client = new StorageClient1(trackerServer, storageServer);
+		try {
+			ClientGlobal.init(conf_filename);
+			System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
+			System.out.println("charset=" + ClientGlobal.G_CHARSET);
 
-      NameValuePair[] metaList = new NameValuePair[1];
-      metaList[0] = new NameValuePair("fileName", local_filename);
-      String fileId = client.uploadFile1(local_filename, null, metaList);
-      System.out.println("upload success. file id is: " + fileId);
+			TrackerClient tracker = new TrackerClient();
+			TrackerServer trackerServer = tracker.getTrackerServer();
+			StorageServer storageServer = null;
+			StorageClient1 client = new StorageClient1(trackerServer, storageServer);
 
-      int i = 0;
-      while (i++ < 10) {
-        byte[] result = client.downloadFile1(fileId);
-        System.out.println(i + ", download result is: " + result.length);
-      }
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-  }
+			NameValuePair[] metaList = new NameValuePair[1];
+			metaList[0] = new NameValuePair("fileName", local_filename);
+			String fileId = client.uploadFile1(local_filename, null, metaList);
+			System.out.println("upload success. file id is: " + fileId);
+
+			int i = 0;
+			while (i++ < 10) {
+				byte[] result = client.downloadFile1(fileId);
+				System.out.println(i + ", download result is: " + result.length);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

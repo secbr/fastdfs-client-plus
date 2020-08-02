@@ -1,7 +1,7 @@
 package top.folen.fastdfs;
 
-import top.folen.common.IniFileReader;
 import top.folen.common.FastDfsException;
+import top.folen.common.IniFileReader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +66,7 @@ public class ClientGlobal {
 	public static int g_connection_pool_max_wait_time_in_ms = DEFAULT_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS;
 
 	//millisecond
-	public static TrackerGroup g_tracker_group;
+	public static TrackerGroup G_TRACKER_GROUP;
 
 	private ClientGlobal() {
 	}
@@ -74,37 +74,28 @@ public class ClientGlobal {
 	/**
 	 * load global variables
 	 *
-	 * @param conf_filename config filename
+	 * @param confFilename config filename
 	 */
-	public static void init(String conf_filename) throws IOException, FastDfsException {
+	public static void init(String confFilename) throws FastDfsException {
 		IniFileReader iniReader;
 		String[] szTrackerServers;
 		String[] parts;
 
-		iniReader = new IniFileReader(conf_filename);
+		iniReader = new IniFileReader(confFilename);
 
-		g_connect_timeout = iniReader.getIntValue("connect_timeout", DEFAULT_CONNECT_TIMEOUT);
-		if (g_connect_timeout < 0) {
-			g_connect_timeout = DEFAULT_CONNECT_TIMEOUT;
-		}
+		// millisecond
+		g_connect_timeout = iniReader.getPositiveIntValue(CONF_KEY_CONNECT_TIMEOUT, DEFAULT_CONNECT_TIMEOUT) * 1000;
+		// millisecond
+		g_network_timeout = iniReader.getPositiveIntValue(CONF_KEY_NETWORK_TIMEOUT, DEFAULT_NETWORK_TIMEOUT) * 1000;
 
-		//millisecond
-		g_connect_timeout *= 1000;
-
-		g_network_timeout = iniReader.getIntValue("network_timeout", DEFAULT_NETWORK_TIMEOUT);
-		if (g_network_timeout < 0) {
-			g_network_timeout = DEFAULT_NETWORK_TIMEOUT;
-		}
-		g_network_timeout *= 1000; //millisecond
-
-		G_CHARSET = iniReader.getStrValue("charset");
+		G_CHARSET = iniReader.getStrValue(CONF_KEY_CHARSET);
 		if (G_CHARSET == null || G_CHARSET.length() == 0) {
 			G_CHARSET = "ISO8859-1";
 		}
 
-		szTrackerServers = iniReader.getValues("tracker_server");
+		szTrackerServers = iniReader.getValues(CONF_KEY_TRACKER_SERVER);
 		if (szTrackerServers == null) {
-			throw new FastDfsException("item \"tracker_server\" in " + conf_filename + " not found");
+			throw new FastDfsException("item \"tracker_server\" in " + confFilename + " not found");
 		}
 
 		InetSocketAddress[] trackerServers = new InetSocketAddress[szTrackerServers.length];
@@ -117,27 +108,21 @@ public class ClientGlobal {
 
 			trackerServers[i] = new InetSocketAddress(parts[0].trim(), Integer.parseInt(parts[1].trim()));
 		}
-		g_tracker_group = new TrackerGroup(trackerServers);
+		G_TRACKER_GROUP = new TrackerGroup(trackerServers);
 
-		g_tracker_http_port = iniReader.getIntValue("http.tracker_http_port", 80);
-		g_anti_steal_token = iniReader.getBoolValue("http.anti_steal_token", false);
+		g_tracker_http_port = iniReader.getPositiveIntValue(CONF_KEY_HTTP_TRACKER_HTTP_PORT, 80);
+		g_anti_steal_token = iniReader.getBoolValue(CONF_KEY_HTTP_ANTI_STEAL_TOKEN, false);
 		if (g_anti_steal_token) {
-			g_secret_key = iniReader.getStrValue("http.secret_key");
+			g_secret_key = iniReader.getStrValue(CONF_KEY_HTTP_SECRET_KEY);
 		}
 		g_connection_pool_enabled = iniReader.getBoolValue("connection_pool.enabled", DEFAULT_CONNECTION_POOL_ENABLED);
 		g_connection_pool_max_count_per_entry = iniReader.getIntValue("connection_pool.max_count_per_entry",
 				DEFAULT_CONNECTION_POOL_MAX_COUNT_PER_ENTRY);
-		g_connection_pool_max_idle_time = iniReader.getIntValue("connection_pool.max_idle_time",
-				DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME);
-		if (g_connection_pool_max_idle_time < 0) {
-			g_connection_pool_max_idle_time = DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME;
-		}
-		g_connection_pool_max_idle_time *= 1000;
-		g_connection_pool_max_wait_time_in_ms = iniReader.getIntValue("connection_pool.max_wait_time_in_ms",
+		g_connection_pool_max_idle_time = iniReader.getPositiveIntValue("connection_pool.max_idle_time",
+				DEFAULT_CONNECTION_POOL_MAX_IDLE_TIME) * 1000;
+
+		g_connection_pool_max_wait_time_in_ms = iniReader.getPositiveIntValue("connection_pool.max_wait_time_in_ms",
 				DEFAULT_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS);
-		if (g_connection_pool_max_wait_time_in_ms < 0) {
-			g_connection_pool_max_wait_time_in_ms = DEFAULT_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS;
-		}
 	}
 
 	/**
@@ -178,7 +163,7 @@ public class ClientGlobal {
 		String poolEnabled = props.getProperty(PROP_KEY_CONNECTION_POOL_ENABLED);
 		String poolMaxCountPerEntry = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_COUNT_PER_ENTRY);
 		String poolMaxIdleTime = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_IDLE_TIME);
-		String poolMaxWaitTimeInMS = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS);
+		String poolMaxWaitTimeInMs = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS);
 
 		if (connectTimeoutInSecondsConf != null && connectTimeoutInSecondsConf.trim().length() != 0) {
 			g_connect_timeout = Integer.parseInt(connectTimeoutInSecondsConf.trim()) * 1000;
@@ -207,8 +192,8 @@ public class ClientGlobal {
 		if (poolMaxIdleTime != null && poolMaxIdleTime.trim().length() != 0) {
 			g_connection_pool_max_idle_time = Integer.parseInt(poolMaxIdleTime) * 1000;
 		}
-		if (poolMaxWaitTimeInMS != null && poolMaxWaitTimeInMS.trim().length() != 0) {
-			g_connection_pool_max_wait_time_in_ms = Integer.parseInt(poolMaxWaitTimeInMS);
+		if (poolMaxWaitTimeInMs != null && poolMaxWaitTimeInMs.trim().length() != 0) {
+			g_connection_pool_max_wait_time_in_ms = Integer.parseInt(poolMaxWaitTimeInMs);
 		}
 	}
 
@@ -235,20 +220,20 @@ public class ClientGlobal {
 	}
 
 	public static void initByTrackers(InetSocketAddress[] trackerAddresses) throws IOException, FastDfsException {
-		g_tracker_group = new TrackerGroup(trackerAddresses);
+		G_TRACKER_GROUP = new TrackerGroup(trackerAddresses);
 	}
 
 	/**
 	 * construct Socket object
 	 *
-	 * @param ip_addr ip address or hostname
-	 * @param port    port number
+	 * @param ipAddr ip address or hostname
+	 * @param port   port number
 	 * @return connected Socket object
 	 */
-	public static Socket getSocket(String ip_addr, int port) throws IOException {
+	public static Socket getSocket(String ipAddr, int port) throws IOException {
 		Socket sock = new Socket();
 		sock.setSoTimeout(ClientGlobal.g_network_timeout);
-		sock.connect(new InetSocketAddress(ip_addr, port), ClientGlobal.g_connect_timeout);
+		sock.connect(new InetSocketAddress(ipAddr, port), ClientGlobal.g_connect_timeout);
 		return sock;
 	}
 
@@ -318,12 +303,12 @@ public class ClientGlobal {
 		ClientGlobal.g_secret_key = secret_key;
 	}
 
-	public static TrackerGroup getG_tracker_group() {
-		return g_tracker_group;
+	public static TrackerGroup getgTrackerGroup() {
+		return G_TRACKER_GROUP;
 	}
 
-	public static void setG_tracker_group(TrackerGroup tracker_group) {
-		ClientGlobal.g_tracker_group = tracker_group;
+	public static void setgTrackerGroup(TrackerGroup tracker_group) {
+		ClientGlobal.G_TRACKER_GROUP = tracker_group;
 	}
 
 	public static boolean isG_connection_pool_enabled() {
@@ -332,8 +317,8 @@ public class ClientGlobal {
 
 	public static String configInfo() {
 		StringBuilder trackerServers = new StringBuilder();
-		if (g_tracker_group != null) {
-			InetSocketAddress[] trackerAddresses = g_tracker_group.trackerServers;
+		if (G_TRACKER_GROUP != null) {
+			InetSocketAddress[] trackerAddresses = G_TRACKER_GROUP.trackerServers;
 			for (InetSocketAddress inetSocketAddress : trackerAddresses) {
 				if (trackerServers.length() > 0) {
 					trackerServers.append(",");

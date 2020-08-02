@@ -29,7 +29,7 @@ public class TrackerClient {
 	 * constructor with global tracker group
 	 */
 	public TrackerClient() {
-		this.trackerGroup = ClientGlobal.g_tracker_group;
+		this.trackerGroup = ClientGlobal.G_TRACKER_GROUP;
 	}
 
 	/**
@@ -632,7 +632,7 @@ public class TrackerClient {
 	 * @return true for success, false for fail
 	 */
 	public boolean deleteStorage(String groupName, String storageIpAddr) throws IOException, FastDfsException {
-		return this.deleteStorage(ClientGlobal.g_tracker_group, groupName, storageIpAddr);
+		return this.deleteStorage(ClientGlobal.G_TRACKER_GROUP, groupName, storageIpAddr);
 	}
 
 	/**
