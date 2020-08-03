@@ -15,6 +15,21 @@ RELEASE相关版本已发布到Maven中央仓库，在项目的pom.xml文件中�
     <version>1.1.1-RELEASE</version>
 </dependency>
 ```
+项目中内置了slf4j-log4j12，如果在你的项目中已经引入了对应的日志框架，可进行如下的排除操作，防止jar包冲突。
+
+```xml
+<dependency>
+    <groupId>com.github.secbr</groupId>
+    <artifactId>fastdfs-client-plus</artifactId>
+    <version>1.1.1-RELEASE</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
 所需版本可根据需要进行替换对应的version，版本发布信息如下可访问该链接：https://github.com/secbr/fastdfs-client-plus/releases
 
 如果需要通过本地打包或修改源代码之后构建可采用以下方式中一种：
