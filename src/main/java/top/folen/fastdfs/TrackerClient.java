@@ -651,13 +651,7 @@ public class TrackerClient {
 
 		notFoundCount = 0;
 		for (serverIndex = 0; serverIndex < trackerGroup.trackerServers.length; serverIndex++) {
-			try {
-				trackerServer = trackerGroup.getTrackerServer(serverIndex);
-			} catch (IOException ex) {
-				LOGGER.error("错误码：{}", ProtoCommon.ECONNREFUSED, ex);
-				this.errno = ProtoCommon.ECONNREFUSED;
-				return false;
-			}
+			trackerServer = trackerGroup.getTrackerServer(serverIndex);
 			StorageStatStruct[] storageStats = listStorages(trackerServer, groupName, storageIpAddr);
 			if (storageStats == null) {
 				if (this.errno == ProtoCommon.ERR_NO_ENOENT) {
@@ -682,16 +676,7 @@ public class TrackerClient {
 
 		notFoundCount = 0;
 		for (serverIndex = 0; serverIndex < trackerGroup.trackerServers.length; serverIndex++) {
-			try {
-				trackerServer = trackerGroup.getTrackerServer(serverIndex);
-			} catch (IOException ex) {
-				LOGGER.error("connect to server ：{}:{} fail",
-						trackerGroup.trackerServers[serverIndex].getAddress().getHostAddress(),
-						trackerGroup.trackerServers[serverIndex].getPort(),
-						ex);
-				this.errno = ProtoCommon.ECONNREFUSED;
-				return false;
-			}
+			trackerServer = trackerGroup.getTrackerServer(serverIndex);
 			if (!this.deleteStorage(trackerServer, groupName, storageIpAddr)) {
 				if (this.errno != 0) {
 					if (this.errno == ProtoCommon.ERR_NO_ENOENT) {
@@ -701,7 +686,6 @@ public class TrackerClient {
 					}
 				}
 			}
-
 		}
 
 		if (notFoundCount == trackerGroup.trackerServers.length) {

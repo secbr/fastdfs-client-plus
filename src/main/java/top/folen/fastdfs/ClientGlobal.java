@@ -2,6 +2,7 @@ package top.folen.fastdfs;
 
 import top.folen.common.FastDfsException;
 import top.folen.common.IniFileReader;
+import top.folen.fastdfs.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +23,7 @@ public class ClientGlobal {
 	// 配置文件对应的key值
 
 	/**
-	 * 链接超时时间
+	 * 连接超时时间
 	 */
 	private static final String CONF_KEY_CONNECT_TIMEOUT = "connect_timeout";
 
@@ -32,6 +33,7 @@ public class ClientGlobal {
 	private static final String CONF_KEY_HTTP_SECRET_KEY = "http.secret_key";
 	private static final String CONF_KEY_HTTP_TRACKER_HTTP_PORT = "http.tracker_http_port";
 	private static final String CONF_KEY_TRACKER_SERVER = "tracker_server";
+
 	private static final String PROP_KEY_CONNECT_TIMEOUT_IN_SECONDS = "fastdfs.connect_timeout_in_seconds";
 	private static final String PROP_KEY_NETWORK_TIMEOUT_IN_SECONDS = "fastdfs.network_timeout_in_seconds";
 	private static final String PROP_KEY_CHARSET = "fastdfs.charset";
@@ -158,7 +160,7 @@ public class ClientGlobal {
 		initByProperties(props);
 	}
 
-	public static void initByProperties(Properties props) throws IOException, FastDfsException {
+	public static void initByProperties(Properties props) throws FastDfsException {
 		String trackerServersConf = props.getProperty(PROP_KEY_TRACKER_SERVERS);
 		if (trackerServersConf == null || trackerServersConf.trim().length() == 0) {
 			throw new FastDfsException(String.format("configure item %s is required", PROP_KEY_TRACKER_SERVERS));
@@ -176,34 +178,40 @@ public class ClientGlobal {
 		String poolMaxIdleTime = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_IDLE_TIME);
 		String poolMaxWaitTimeInMs = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS);
 
-		if (connectTimeoutInSecondsConf != null && connectTimeoutInSecondsConf.trim().length() != 0) {
+		if (StringUtils.isNotBlank(connectTimeoutInSecondsConf)) {
 			g_connect_timeout = Integer.parseInt(connectTimeoutInSecondsConf.trim()) * 1000;
 		}
-		if (networkTimeoutInSecondsConf != null && networkTimeoutInSecondsConf.trim().length() != 0) {
+
+		if (StringUtils.isNotBlank(networkTimeoutInSecondsConf)) {
 			g_network_timeout = Integer.parseInt(networkTimeoutInSecondsConf.trim()) * 1000;
 		}
-		if (charsetConf != null && charsetConf.trim().length() != 0) {
+
+		if (StringUtils.isNotBlank(charsetConf)) {
 			G_CHARSET = charsetConf.trim();
 		}
-		if (httpAntiStealTokenConf != null && httpAntiStealTokenConf.trim().length() != 0) {
+
+		if (StringUtils.isNotBlank(httpAntiStealTokenConf)) {
 			g_anti_steal_token = Boolean.parseBoolean(httpAntiStealTokenConf);
 		}
-		if (httpSecretKeyConf != null && httpSecretKeyConf.trim().length() != 0) {
+
+		if (StringUtils.isNotBlank(httpSecretKeyConf)) {
 			g_secret_key = httpSecretKeyConf.trim();
 		}
-		if (httpTrackerHttpPortConf != null && httpTrackerHttpPortConf.trim().length() != 0) {
+
+		if (StringUtils.isNotBlank(httpTrackerHttpPortConf)) {
 			g_tracker_http_port = Integer.parseInt(httpTrackerHttpPortConf);
 		}
-		if (poolEnabled != null && poolEnabled.trim().length() != 0) {
+		if (StringUtils.isNotBlank(poolEnabled)) {
 			g_connection_pool_enabled = Boolean.parseBoolean(poolEnabled);
 		}
-		if (poolMaxCountPerEntry != null && poolMaxCountPerEntry.trim().length() != 0) {
+		if (StringUtils.isNotBlank(poolMaxCountPerEntry)) {
 			g_connection_pool_max_count_per_entry = Integer.parseInt(poolMaxCountPerEntry);
 		}
-		if (poolMaxIdleTime != null && poolMaxIdleTime.trim().length() != 0) {
+		if (StringUtils.isNotBlank(poolMaxIdleTime)) {
 			g_connection_pool_max_idle_time = Integer.parseInt(poolMaxIdleTime) * 1000;
 		}
-		if (poolMaxWaitTimeInMs != null && poolMaxWaitTimeInMs.trim().length() != 0) {
+
+		if (StringUtils.isNotBlank(poolMaxWaitTimeInMs)) {
 			g_connection_pool_max_wait_time_in_ms = Integer.parseInt(poolMaxWaitTimeInMs);
 		}
 	}
@@ -215,13 +223,11 @@ public class ClientGlobal {
 	 *                       server的IP和端口用冒号':'分隔
 	 *                       server之间用逗号','分隔
 	 */
-	public static void initByTrackers(String trackerServers) throws IOException, FastDfsException {
+	public static void initByTrackers(String trackerServers) {
 		List<InetSocketAddress> list = new ArrayList<>();
-		String spr1 = ",";
-		String spr2 = ":";
-		String[] arr1 = trackerServers.trim().split(spr1);
+		String[] arr1 = trackerServers.trim().split(",");
 		for (String addrStr : arr1) {
-			String[] arr2 = addrStr.trim().split(spr2);
+			String[] arr2 = addrStr.trim().split(":");
 			String host = arr2[0].trim();
 			int port = Integer.parseInt(arr2[1].trim());
 			list.add(new InetSocketAddress(host, port));
@@ -230,7 +236,7 @@ public class ClientGlobal {
 		initByTrackers(trackerAddresses);
 	}
 
-	public static void initByTrackers(InetSocketAddress[] trackerAddresses) throws IOException, FastDfsException {
+	public static void initByTrackers(InetSocketAddress[] trackerAddresses) {
 		G_TRACKER_GROUP = new TrackerGroup(trackerAddresses);
 	}
 
