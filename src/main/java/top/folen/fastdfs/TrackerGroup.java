@@ -1,9 +1,5 @@
 package top.folen.fastdfs;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 /**
@@ -13,8 +9,6 @@ import java.net.InetSocketAddress;
  * @version Version 1.17
  */
 public class TrackerGroup {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(TrackerGroup.class);
 
 	public int trackerServerIndex;
 
@@ -38,7 +32,7 @@ public class TrackerGroup {
 	 *
 	 * @return connected tracker server, null for fail
 	 */
-	public TrackerServer getTrackerServer(int serverIndex) throws IOException {
+	public TrackerServer getTrackerServer(int serverIndex) {
 		return new TrackerServer(this.trackerServers[serverIndex]);
 	}
 
@@ -48,46 +42,16 @@ public class TrackerGroup {
 	 * @return connected tracker server, null for fail
 	 */
 	public TrackerServer getTrackerServer() {
-		int currentIndex;
-
+		if (trackerServers == null || trackerServers.length == 0) {
+			return null;
+		}
 		synchronized (this.lock) {
 			this.trackerServerIndex++;
 			if (this.trackerServerIndex >= this.trackerServers.length) {
 				this.trackerServerIndex = 0;
 			}
-
-			currentIndex = this.trackerServerIndex;
 		}
-
-		try {
-			return this.getTrackerServer(currentIndex);
-		} catch (IOException ex) {
-			LOGGER.error("connect to server {}:{}  fail",
-					this.trackerServers[currentIndex].getAddress().getHostAddress(),
-					this.trackerServers[currentIndex].getPort(), ex);
-		}
-
-		for (int i = 0; i < this.trackerServers.length; i++) {
-			if (i == currentIndex) {
-				continue;
-			}
-
-			try {
-				TrackerServer trackerServer = this.getTrackerServer(i);
-
-				synchronized (this.lock) {
-					if (this.trackerServerIndex == currentIndex) {
-						this.trackerServerIndex = i;
-					}
-				}
-				return trackerServer;
-			} catch (IOException ex) {
-				LOGGER.error("connect to server {}:{}  fail",
-						this.trackerServers[i].getAddress().getHostAddress(),
-						this.trackerServers[i].getPort(), ex);
-			}
-		}
-		return null;
+		return this.getTrackerServer(trackerServerIndex);
 	}
 
 	@Override
