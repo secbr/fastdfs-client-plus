@@ -1,26 +1,42 @@
 package top.folen.fastdfs;
 
+import org.junit.Test;
+import top.folen.common.FastDfsException;
+
+import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Created by James on 2017/5/19.
+ * Created by zzs
  */
 public class ClientGlobalTests {
 
-	public static void main(String[] args) throws Exception {
+	@Test
+	public void testInitByTrackers() throws IOException, FastDfsException {
 		String trackerServers = "10.0.11.101:22122,10.0.11.102:22122";
 		ClientGlobal.initByTrackers(trackerServers);
 		System.out.println("ClientGlobal.configInfo() : " + ClientGlobal.configInfo());
+	}
 
+	@Test
+	public void testInitByProperties() throws IOException, FastDfsException {
 		String propFilePath = "fastdfs-client.properties";
 		ClientGlobal.initByProperties(propFilePath);
 		System.out.println("ClientGlobal.configInfo() : " + ClientGlobal.configInfo());
+	}
 
+	@Test
+	public void testInitByPropertiesAndServers() throws IOException, FastDfsException {
 		Properties props = new Properties();
-		props.put(ClientGlobal.PROP_KEY_TRACKER_SERVERS, "10.0.11.101:22122,10.0.11.102:22122");
+		props.put("fastdfs.tracker_servers", "10.0.11.101:22122,10.0.11.102:22122");
 		ClientGlobal.initByProperties(props);
 		System.out.println("ClientGlobal.configInfo(): " + ClientGlobal.configInfo());
+	}
 
+	@Test
+	public void testInit() throws FastDfsException {
+		ClientGlobal.init("fdfs_client.conf");
+		System.out.println(ClientGlobal.G_TRACKER_GROUP.getTrackerServer().inetSockAddr.getAddress());
 	}
 
 }

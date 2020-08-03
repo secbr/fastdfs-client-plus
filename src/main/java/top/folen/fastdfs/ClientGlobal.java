@@ -20,7 +20,12 @@ import java.util.Properties;
 public class ClientGlobal {
 
 	// 配置文件对应的key值
+
+	/**
+	 * 链接超时时间
+	 */
 	private static final String CONF_KEY_CONNECT_TIMEOUT = "connect_timeout";
+
 	private static final String CONF_KEY_NETWORK_TIMEOUT = "network_timeout";
 	private static final String CONF_KEY_CHARSET = "charset";
 	private static final String CONF_KEY_HTTP_ANTI_STEAL_TOKEN = "http.anti_steal_token";
@@ -83,15 +88,11 @@ public class ClientGlobal {
 	/**
 	 * load global variables
 	 *
-	 * @param confFilename config filename
+	 * @param filename config filename
 	 */
-	public static void init(String confFilename) throws FastDfsException {
-		IniFileReader iniReader;
-		String[] szTrackerServers;
-		String[] parts;
+	public static void init(String filename) throws FastDfsException {
 
-		iniReader = new IniFileReader(confFilename);
-
+		IniFileReader iniReader = new IniFileReader(filename);
 		// millisecond
 		g_connect_timeout = iniReader.getPositiveIntValue(CONF_KEY_CONNECT_TIMEOUT, DEFAULT_CONNECT_TIMEOUT) * 1000;
 		// millisecond
@@ -102,14 +103,15 @@ public class ClientGlobal {
 			G_CHARSET = "ISO8859-1";
 		}
 
-		szTrackerServers = iniReader.getValues(CONF_KEY_TRACKER_SERVER);
+		String[] szTrackerServers = iniReader.getValues(CONF_KEY_TRACKER_SERVER);
 		if (szTrackerServers == null) {
-			throw new FastDfsException("item \"tracker_server\" in " + confFilename + " not found");
+			throw new FastDfsException("item \"tracker_server\" in " + filename + " not found");
 		}
 
 		InetSocketAddress[] trackerServers = new InetSocketAddress[szTrackerServers.length];
+		String[] parts;
 		for (int i = 0; i < szTrackerServers.length; i++) {
-			parts = szTrackerServers[i].split("\\:", 2);
+			parts = szTrackerServers[i].split(":", 2);
 			if (parts.length != 2) {
 				throw new FastDfsException("the value of item \"tracker_server\" is invalid, the correct format is " +
 						"host:port");
